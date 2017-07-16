@@ -11,6 +11,9 @@
 improve a little every day.</Description>
     <Company>Rocher</Company>
     <Product>Bara</Product>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
