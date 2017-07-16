@@ -15,7 +15,7 @@ after_build:
 - cmd: dotnet pack Bara -c %CONFIGURATION%
 test: off
 artifacts:
-- path: Bara\bin\%CONFIGURATION%\*.nupkg
+- path: /.*\.nupkg/
   name: Nuget
 deploy:
 - provider: NuGet
