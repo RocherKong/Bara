@@ -2,8 +2,17 @@ version: 0.0.{build}
 image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
-build_script:
+before_build:
+- cmd: appveyor-retry dotnet restore -v Minimal
+build:
+  publish_nuget: true
+  include_nuget_references: true
+  parallel: true
+  verbosity: normal
+before_package:
 - cmd: dotnet build Bara -c %CONFIGURATION%
+after_build:
+- cmd: dotnet pack Bara -c %CONFIGURATION%
 artifacts:
 - path: .\artifacts\**\*.nupkg
   name: Nuget
