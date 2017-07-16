@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BaraMapConfig xmlns="http://bara.github.io/schemas/BaraConfig.xsd">
+  <Settings
+    IsWatchConfigFile="true"
+  />
+  <Database>
+    <DbProvider Name="SqlClientFactory" ParameterPrefix="@" Type="System.Data.SqlClient.SqlClientFactory,System.Data.SqlClient"/>
+    <Write Name="WriteDB" ConnectionString="Data Source=.;database=TestDB;uid=sa;pwd=Bara.net"/>
+    <Read Name="ReadDB-0" ConnectionString="Data Source=.;database=TestDB;uid=sa;pwd=Bara.net" Weight="80"/>
+    <Read Name="ReadDB-1" ConnectionString="Data Source=.;database=TestDB;uid=sa;pwd=Bara.net" Weight="20"/>
+  </Database>
+  <BaraMaps>
+    <BaraMap Path="Maps/T_Test.xml"></BaraMap>
+    
+  </BaraMaps>
+</BaraMapConfig>
