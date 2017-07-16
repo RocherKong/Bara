@@ -3,7 +3,7 @@ image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
 build_script:
-- ps: .\Build.ps1
+- cmd: dotnet build Bara -c %CONFIGURATION%
 artifacts:
 - path: .\artifacts\**\*.nupkg
   name: Nuget
