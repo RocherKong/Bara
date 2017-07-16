@@ -6,8 +6,9 @@ namespace Bara
 {
     public class Error
     {
-        public void ThrowError() {
+        public void ThrowError()
+        {
             throw new Exception("just for test");
-        
+        }
     }
 }
