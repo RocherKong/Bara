@@ -10,7 +10,10 @@ build:
   parallel: true
   verbosity: normal
 before_package:
-- cmd: dotnet build Bara -c %CONFIGURATION%
+- cmd: >-
+    dotnet build Bara -c %CONFIGURATION%
+
+    dotnet build Bara.Test -c %CONFIGURATION%
 after_build:
 - cmd: dotnet pack Bara -c %CONFIGURATION%
 artifacts:
