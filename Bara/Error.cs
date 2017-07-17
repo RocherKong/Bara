@@ -9,6 +9,6 @@ namespace Bara
         public void ThrowError()
         {
             throw new Exception("just for test");
-        
+        }
     }
 }
