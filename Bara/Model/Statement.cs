@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Linq;
+using Bara.Exceptions;
 
 namespace Bara.Model
 {
@@ -25,9 +27,9 @@ namespace Bara.Model
                 BaraMap = baraMap
             };
             XNamespace ns = xele.GetDefaultNamespace();
-
             ///tag
             IEnumerable<XElement> childNodes = xele.Descendants();
+
             foreach (var childNode in childNodes)
             {
                 var prepend = childNode.Attribute("Prepend").Value;
@@ -35,9 +37,19 @@ namespace Bara.Model
                 var NodeName = childNode.Name.ToString();
                 switch (NodeName)
                 {
-                    case "IsNotEmpty":
+                    case "Include":
                         {
-
+                            var refId = childNode.Attribute("RefId").Value;
+                            var refStatement = baraMap.Statements.FirstOrDefault(x => x.Id == refId);
+                            if (refStatement == null)
+                            {
+                                throw new BaraException($"Bara.Statement Can't find Statement which Id is {refId}");
+                            }
+                            if (refId == Statement.Id)
+                            {
+                                throw new BaraException($"Bara.Statement Can't Use Confict StatementId");
+                            }
+                            //    Statement.SqlTags.Add()
                             break;
                         }
                     default:

@@ -71,7 +71,7 @@ namespace Bara.Test
             var config = loader.Load("BaraMapConfig.xml", null);
 
         }
-        [Fact]
+        [Fact,Trait("Category","A")]
         public void XmlLoaderTest()
         {
             XDocument doc = XDocument.Load(@"E:\T_Test.xml");

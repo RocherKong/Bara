@@ -13,7 +13,7 @@ namespace Bara.Model
 
         //public List<Cache> Caches { get; set; }
         [XmlArray]
-        public IList<Statement> Statements { get; set; }
+        public List<Statement> Statements { get; set; }
 
         [XmlIgnore]
         public String Path { get; set; }
