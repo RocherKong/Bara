@@ -71,14 +71,14 @@ namespace Bara.Test
             var config = loader.Load("BaraMapConfig.xml", null);
 
         }
-        [Fact,Trait("Category","A")]
+        [Fact, Trait("Category", "A")]
         public void XmlLoaderTest()
         {
             XDocument doc = XDocument.Load(@"E:\T_Test.xml");
             XElement xele = doc.Root;
             XNamespace ns = xele.GetDefaultNamespace();
             //XElement xStatements =new XElement(ns+"Statements");
-            foreach (var item in xele.Descendants(ns+"Statement"))
+            foreach (var item in xele.Descendants(ns + "Statement"))
             {
                 Trace.WriteLine(item.Name);
             }
@@ -94,8 +94,16 @@ namespace Bara.Test
             //    Trace.WriteLine(item.Name);
             //}
 
-          //  Trace.WriteLine(Scope);
+            //  Trace.WriteLine(Scope);
 
         }
+
+        [Fact]
+        public void ConfigLoader()
+        {
+
+        }
+
+
     }
 }

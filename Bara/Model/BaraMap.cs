@@ -17,5 +17,8 @@ namespace Bara.Model
 
         [XmlIgnore]
         public String Path { get; set; }
+
+        [XmlIgnore]
+        public BaraMapConfig BaraMapConfig { get; set; }
     }
 }

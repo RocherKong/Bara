@@ -76,21 +76,23 @@ namespace Bara.Common
         {
             var baraMap = new BaraMap
             {
+                BaraMapConfig = baraMapConfig,
                 Path = filePath,
                 Statements = new List<Statement>()
             };
 
-            using (var mapConfigSteam=FileLoader.Load(filePath)) {
+            using (var mapConfigSteam = FileLoader.Load(filePath))
+            {
                 XDocument xdoc = XDocument.Load(mapConfigSteam);
                 XElement xele = xdoc.Root;
                 XNamespace ns = xele.GetDefaultNamespace();
-                IEnumerable<XElement> StatementList = xele.Descendants(ns+"Statement");
+                IEnumerable<XElement> StatementList = xele.Descendants(ns + "Statement");
                 foreach (var statementNode in StatementList)
                 {
-                    var _statement = Statement.Load(statementNode,baraMap);
+                    var _statement = Statement.Load(statementNode, baraMap);
                     baraMap.Statements.Add(_statement);
                 }
-              
+
             }
 
             return baraMap;

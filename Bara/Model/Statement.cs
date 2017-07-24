@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Linq;
 using Bara.Exceptions;
+using Bara.Core.Context;
 
 namespace Bara.Model
 {
@@ -62,6 +63,17 @@ namespace Bara.Model
 
 
             return Statement;
+        }
+
+        public String BuildSql(RequestContext context)
+        {
+            String prefix = BaraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
+            StringBuilder sqlStr = new StringBuilder();
+            foreach (ITag tag in SqlTags)
+            {
+                sqlStr.Append(tag.BuildSql(context, prefix));
+            }
+            return sqlStr.ToString();
         }
 
     }
