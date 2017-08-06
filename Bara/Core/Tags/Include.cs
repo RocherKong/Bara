@@ -9,7 +9,7 @@ namespace Bara.Core.Tags
 {
     public class Include : ITag
     {
-        public TagType MyProperty { get; set; }
+        public String RefId { get; set; }
 
         public TagType Type => TagType.Include;
 
