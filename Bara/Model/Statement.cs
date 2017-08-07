@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.Linq;
 using Bara.Exceptions;
 using Bara.Core.Context;
+using Bara.Core.Tags;
 
 namespace Bara.Model
 {
@@ -50,11 +51,21 @@ namespace Bara.Model
                             {
                                 throw new BaraException($"Bara.Statement Can't Use Confict StatementId");
                             }
-                            //    Statement.SqlTags.Add()
+                            Statement.SqlTags.Add(new Include
+                            {
+                                RefId=refId,
+                                Ref=refStatement
+                            });
                             break;
                         }
                     default:
-                        break;
+                        {
+                            var tag = LoadTag(childNode);
+                            if (tag != null) {
+                                Statement.SqlTags.Add(tag);
+                            }
+                            break;
+                        };
                 }
 
             }
@@ -63,6 +74,50 @@ namespace Bara.Model
 
 
             return Statement;
+        }
+
+
+        public static ITag LoadTag(XElement xmlNode) {
+            ITag tag = null;
+            bool isIn = xmlNode.Attributes("In") != null;
+            var prepend = xmlNode.Attribute("Prepend")?.Value;
+            var property = xmlNode.Attribute("Property")?.Value;
+            var compareValue = xmlNode.Attribute("CompareValue")?.Value;
+            switch (xmlNode.Name.LocalName)
+            {
+                
+                case "#text":
+                case "cdata-section": {
+                        var bodyText = xmlNode.Value.Replace("\n", "");
+                        return new SqlText
+                        {
+                            BodyText = bodyText
+                        };
+                    }
+                case "IsNotEmpty": {
+                        tag = new IsNotEmpty
+                        {
+                            In = isIn,
+                            Prepend = prepend,
+                            Property = property,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
+                default:
+                    return null;
+            }
+
+            foreach (var Child in xmlNode.Descendants())
+            {
+                ITag childtag = LoadTag(Child);
+                (tag as Tag).Children.Add(childtag);
+                
+            }
+
+            return tag;
+
+
         }
 
         public String BuildSql(RequestContext context)
