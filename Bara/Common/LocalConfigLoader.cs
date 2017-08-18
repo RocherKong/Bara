@@ -1,4 +1,5 @@
-﻿using Bara.Abstract.Core;
+﻿using Bara.Abstract.Config;
+using Bara.Abstract.Core;
 using Bara.Model;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,22 @@ using System.Xml.Serialization;
 
 namespace Bara.Common
 {
-    public class LocalConfigLoader
+    public class LocalConfigLoader : ConfigLoader
     {
+        public override void Disponse()
+        {
+            throw new NotImplementedException();
+        }
+
         //总加载器
         //1初始化配置文件（BaraMapConfig），2监控文件BaraMapper   调用器
-        public BaraMapConfig Load(String filePath, IBaraMapper baraMapper)
+        public override BaraMapConfig Load(String filePath, IBaraMapper baraMapper)
         {
             var Config = LoadConfig(filePath, baraMapper);
             if (Config.Settings.IsWatchConfigFile)
             {
                 //监控
-                WatchConfig(Config);
+                WatchConfig(baraMapper);
             }
             return Config;
         }
@@ -49,8 +55,10 @@ namespace Bara.Common
         /// 监控配置文件变化
         /// </summary>
         /// <param name="config"></param>
-        public void WatchConfig(BaraMapConfig config)
+        public void WatchConfig(IBaraMapper baraMapper)
         {
+            var config = baraMapper.BaraMapConfig;
+
             var ConfigFileInfo = FileLoader.GetFileInfo(config.Path);
             ///监控Config
             FileWatcherLoader.Instance.Watch(ConfigFileInfo, () =>
@@ -64,7 +72,9 @@ namespace Bara.Common
                 var baraMapperFileInfo = FileLoader.GetFileInfo(baraMap.Path);
                 FileWatcherLoader.Instance.Watch(baraMapperFileInfo, () =>
                 {
-                    var changedBaraMapper = LoadBaraMap(baraMap.Path, config);
+                    var baraMapStream = LoadConfigStream(baraMap.Path);
+                    var changedBaraMapper = LoadBaraMap(baraMapStream, config);
+                  //  baraMap.
 
                     config.ClearMappedStatements();
 
@@ -72,30 +82,21 @@ namespace Bara.Common
             }
         }
 
-        public BaraMap LoadBaraMap(string filePath, BaraMapConfig baraMapConfig)
+        public ConfigStream LoadConfigStream(String path)
         {
-            var baraMap = new BaraMap
+            var configStream = new ConfigStream
             {
-                BaraMapConfig = baraMapConfig,
-                Path = filePath,
-                Statements = new List<Statement>()
+                Path = path,
+                Stream = FileLoader.Load(path)
             };
+            return configStream;
+        }
 
-            using (var mapConfigSteam = FileLoader.Load(filePath))
-            {
-                XDocument xdoc = XDocument.Load(mapConfigSteam);
-                XElement xele = xdoc.Root;
-                XNamespace ns = xele.GetDefaultNamespace();
-                IEnumerable<XElement> StatementList = xele.Descendants(ns + "Statement");
-                foreach (var statementNode in StatementList)
-                {
-                    var _statement = Statement.Load(statementNode, baraMap);
-                    baraMap.Statements.Add(_statement);
-                }
-
-            }
-
-            return baraMap;
+        public void LoadBaraMap(string filePath, BaraMapConfig baraMapConfig)
+        {
+            var baraMapSteam = LoadConfigStream(filePath);
+            var baraMap = LoadBaraMap(baraMapSteam,baraMapConfig);
+            baraMapConfig.BaraMaps.Add(baraMap);
         }
     }
 }

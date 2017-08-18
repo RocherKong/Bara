@@ -101,7 +101,10 @@ namespace Bara.Test
         [Fact]
         public void ConfigLoader()
         {
+            LocalConfigLoader loader = new LocalConfigLoader();
 
+            // IBaraMapper baraMapper;
+            var config = loader.Load("BaraMapConfig.xml", null);
         }
 
 

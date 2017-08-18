@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Bara.Abstract.Core
 {
-    public interface IBaraMapper
+    public interface IBaraMapper : IDisposable
     {
+        BaraMapConfig BaraMapConfig { get; }
         void LoadConfig(BaraMapConfig config);
     }
 }
