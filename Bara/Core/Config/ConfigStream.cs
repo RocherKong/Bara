@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Bara.Abstract.Config
+namespace Bara.Core.Config
 {
     public class ConfigStream
     {

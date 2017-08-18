@@ -1,4 +1,5 @@
-﻿using Bara.Abstract.Core;
+﻿using Bara.Abstract.Config;
+using Bara.Abstract.Core;
 using Bara.Model;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Bara.Abstract.Config
+namespace Bara.Core.Config
 {
     public abstract class ConfigLoader : IConfigLoader
     {

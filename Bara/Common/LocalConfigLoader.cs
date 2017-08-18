@@ -1,5 +1,6 @@
 ﻿using Bara.Abstract.Config;
 using Bara.Abstract.Core;
+using Bara.Core.Config;
 using Bara.Model;
 using System;
 using System.Collections.Generic;
