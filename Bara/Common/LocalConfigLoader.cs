@@ -2,6 +2,7 @@
 using Bara.Abstract.Core;
 using Bara.Core.Config;
 using Bara.Model;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,11 @@ namespace Bara.Common
 {
     public class LocalConfigLoader : ConfigLoader
     {
+        private readonly ILogger _logger;
+        public LocalConfigLoader(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<LocalConfigLoader>();
+        }
         public override void Disponse()
         {
             throw new NotImplementedException();
@@ -75,7 +81,7 @@ namespace Bara.Common
                 {
                     var baraMapStream = LoadConfigStream(baraMap.Path);
                     var changedBaraMapper = LoadBaraMap(baraMapStream, config);
-                  //  baraMap.
+                  //  baraMap.   Next Step is to complex baraMapper an IBaraMapper
 
                     config.ClearMappedStatements();
 
