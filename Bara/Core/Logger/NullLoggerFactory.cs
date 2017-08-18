@@ -15,7 +15,7 @@ namespace Bara.Core.Logger
 
         public ILogger CreateLogger(string categoryName)
         {
-            throw new NotImplementedException();
+            return NullLogger.Instance;
         }
 
         public void Dispose()

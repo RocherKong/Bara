@@ -28,7 +28,13 @@ namespace Bara.Common
         //1初始化配置文件（BaraMapConfig），2监控文件BaraMapper   调用器
         public override BaraMapConfig Load(String filePath, IBaraMapper baraMapper)
         {
-            var Config = LoadConfig(filePath, baraMapper);
+            var configStream = LoadConfigStream(filePath);
+            var Config = LoadConfig(configStream, baraMapper);
+            foreach (var baraMapSource in Config.BaraMapSources)
+            {
+                LoadBaraMap(baraMapSource.Path, Config);
+            }
+            baraMapper.LoadConfig(Config);
             if (Config.Settings.IsWatchConfigFile)
             {
                 //监控
@@ -53,6 +59,7 @@ namespace Bara.Common
                 config = serializer.Deserialize(configStream) as BaraMapConfig;
                 config.Path = filePath;
                 config.BaraMapper = baraMapper;
+                // config.BaraMapConfig
             }
 
             return config;
@@ -81,7 +88,7 @@ namespace Bara.Common
                 {
                     var baraMapStream = LoadConfigStream(baraMap.Path);
                     var changedBaraMapper = LoadBaraMap(baraMapStream, config);
-                  //  baraMap.   Next Step is to complex baraMapper an IBaraMapper
+                    //  baraMap.   Next Step is to complex baraMapper an IBaraMapper
 
                     config.ClearMappedStatements();
 
@@ -102,7 +109,7 @@ namespace Bara.Common
         public void LoadBaraMap(string filePath, BaraMapConfig baraMapConfig)
         {
             var baraMapSteam = LoadConfigStream(filePath);
-            var baraMap = LoadBaraMap(baraMapSteam,baraMapConfig);
+            var baraMap = LoadBaraMap(baraMapSteam, baraMapConfig);
             baraMapConfig.BaraMaps.Add(baraMap);
         }
     }

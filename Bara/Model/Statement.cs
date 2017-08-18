@@ -36,7 +36,7 @@ namespace Bara.Model
             {
                 var prepend = childNode.Attribute("Prepend").Value;
                 var property = childNode.Attribute("Property").Value;
-                var NodeName = childNode.Name.ToString();
+                var NodeName = childNode.Name.LocalName.ToString();
                 switch (NodeName)
                 {
                     case "Include":
@@ -53,15 +53,16 @@ namespace Bara.Model
                             }
                             Statement.SqlTags.Add(new Include
                             {
-                                RefId=refId,
-                                Ref=refStatement
+                                RefId = refId,
+                                Ref = refStatement
                             });
                             break;
                         }
                     default:
                         {
                             var tag = LoadTag(childNode);
-                            if (tag != null) {
+                            if (tag != null)
+                            {
                                 Statement.SqlTags.Add(tag);
                             }
                             break;
@@ -77,7 +78,8 @@ namespace Bara.Model
         }
 
 
-        public static ITag LoadTag(XElement xmlNode) {
+        public static ITag LoadTag(XElement xmlNode)
+        {
             ITag tag = null;
             bool isIn = xmlNode.Attributes("In") != null;
             var prepend = xmlNode.Attribute("Prepend")?.Value;
@@ -85,16 +87,18 @@ namespace Bara.Model
             var compareValue = xmlNode.Attribute("CompareValue")?.Value;
             switch (xmlNode.Name.LocalName)
             {
-                
+
                 case "#text":
-                case "cdata-section": {
+                case "cdata-section":
+                    {
                         var bodyText = xmlNode.Value.Replace("\n", "");
                         return new SqlText
                         {
                             BodyText = bodyText
                         };
                     }
-                case "IsNotEmpty": {
+                case "IsNotEmpty":
+                    {
                         tag = new IsNotEmpty
                         {
                             In = isIn,
@@ -112,7 +116,7 @@ namespace Bara.Model
             {
                 ITag childtag = LoadTag(Child);
                 (tag as Tag).Children.Add(childtag);
-                
+
             }
 
             return tag;
