@@ -30,7 +30,7 @@ namespace Bara.Model
             };
             XNamespace ns = xele.GetDefaultNamespace();
             ///tag
-            IEnumerable<XElement> childNodes = xele.Descendants();
+            IEnumerable<XElement> childNodes = xele.Elements();
 
             foreach (var childNode in childNodes)
             {
