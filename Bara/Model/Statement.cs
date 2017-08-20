@@ -108,6 +108,60 @@ namespace Bara.Model
                         };
                         break;
                     }
+                case "IsEmpty":
+                    {
+                        tag = new IsEmpty
+                        {
+                            Property = property,
+                            Prepend = prepend,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
+                case "IsGreaterThan":
+                    {
+                        tag = new IsGreaterThan
+                        {
+                            Prepend = prepend,
+                            Property = property,
+                            CompareValue = compareValue,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
+                case "IsGreaterEqual":
+                    {
+                        tag = new IsGreaterEqual
+                        {
+                            Prepend = prepend,
+                            Property = property,
+                            CompareValue = compareValue,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
+                case "IsLessThan":
+                    {
+                        tag = new IsLessThan
+                        {
+                            Prepend = prepend,
+                            Property = property,
+                            CompareValue = compareValue,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
+                case "IsLessEqual":
+                    {
+                        tag = new IsLessEqual
+                        {
+                            Prepend = prepend,
+                            Property = property,
+                            CompareValue = compareValue,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
                 default:
                     return null;
             }
