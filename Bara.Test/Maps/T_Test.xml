@@ -1,10 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--
-*******************************
- Create By Ahoo Wang 
- Date 2017-04-17 10:49
-*******************************
--->
 <BaraMap Scope="T_Test" xmlns="http://bara.github.io/schemas/BaraMap.xsd">
  <!-- <Caches>
     <Cache Id="T_Test.RedisCache" Type="Bara.Cache.Redis.RedisCacheProvider,Bara.Cache.Redis">
