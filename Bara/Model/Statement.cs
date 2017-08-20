@@ -16,9 +16,12 @@ namespace Bara.Model
         [XmlAttribute]
         public String Id { get; set; }
 
+        public String FullSqlId => $"{BaraMap.Scope}.{Id}";
+
         public List<ITag> SqlTags { get; set; }
 
-        public BaraMap BaraMap { get; set; }
+        [XmlIgnore]
+        public BaraMap BaraMap { get; private set; }
 
         public static Statement Load(XElement xele, BaraMap baraMap)
         {
