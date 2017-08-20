@@ -21,7 +21,7 @@ namespace Bara.Core.Tags
         /// </summary>
         /// <param name="objParam"></param>
         /// <returns></returns>
-        public abstract bool IsCondition(object objParam);
+        public abstract bool IsNeedShow(object objParam);
 
         /// <summary>
         /// 操作属性
@@ -46,7 +46,7 @@ namespace Bara.Core.Tags
         /// <returns></returns>
         public virtual string BuildSql(RequestContext context, string parameterPrefix)
         {
-            if (IsCondition(context.Request))
+            if (IsNeedShow(context.Request))
             {
                 if (In)
                 {

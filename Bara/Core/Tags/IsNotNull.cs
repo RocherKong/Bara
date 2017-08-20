@@ -1,20 +1,20 @@
-﻿using Bara.Abstract.Tag;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Bara.Core.Context;
+using Bara.Abstract.Tag;
 using Bara.Common;
 
 namespace Bara.Core.Tags
 {
-    public class IsNotEmpty : Tag
+    public class IsNotNull : Tag
     {
-        public override TagType Type => TagType.IsNotEmpty;
+        public override TagType Type => TagType.IsNotNull;
 
         public override bool IsNeedShow(object objParam)
         {
             var reqVal = objParam.GetValue(Property);
-            return reqVal != null && reqVal.ToString().Length > 0;
+            bool IsNeedShow = !(reqVal==null);
+            return IsNeedShow;
         }
     }
 }
