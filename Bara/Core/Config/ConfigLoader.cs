@@ -42,7 +42,7 @@ namespace Bara.Core.Config
                 XElement xele = xdoc.Root;
                 XNamespace ns = xele.GetDefaultNamespace();
                 IEnumerable<XElement> StatementList = xele.Descendants(ns + "Statement");
-                baraMap.Scope = (String)xele.Attribute(ns + "Scope");
+                baraMap.Scope = (String)xele.Attribute("Scope");
 
                
                 foreach (var statementNode in StatementList)

@@ -81,15 +81,16 @@ namespace Bara.Common
                 config.BaraMapper.LoadConfig(changedConfig);
             });
             ///监控BaraMap
-            foreach (var baraMap in config.BaraMapSources)
+            foreach (var baraMap in config.BaraMaps)
             {
                 var baraMapperFileInfo = FileLoader.GetFileInfo(baraMap.Path);
                 FileWatcherLoader.Instance.Watch(baraMapperFileInfo, () =>
                 {
                     var baraMapStream = LoadConfigStream(baraMap.Path);
                     var changedBaraMapper = LoadBaraMap(baraMapStream, config);
-                    //  baraMap.   Next Step is to complex baraMapper an IBaraMapper
-
+                    baraMap.Scope = changedBaraMapper.Scope;
+                    baraMap.Statements = changedBaraMapper.Statements;
+                    
                     config.ClearMappedStatements();
 
                 });

@@ -34,8 +34,8 @@ namespace Bara.Model
 
             foreach (var childNode in childNodes)
             {
-                var prepend = childNode.Attribute("Prepend").Value;
-                var property = childNode.Attribute("Property").Value;
+                var prepend = childNode.Attribute("Prepend")?.Value;
+                var property = childNode.Attribute("Property")?.Value;
                 var NodeName = childNode.Name.LocalName.ToString();
                 switch (NodeName)
                 {
@@ -162,11 +162,22 @@ namespace Bara.Model
                         };
                         break;
                     }
+                case "IsEqual":
+                    {
+                        tag = new IsEqual
+                        {
+                            Prepend = prepend,
+                            Property = property,
+                            CompareValue = compareValue,
+                            Children = new List<ITag>()
+                        };
+                        break;
+                    }
                 default:
                     return null;
             }
 
-            foreach (var Child in xmlNode.Descendants())
+            foreach (var Child in xmlNode.Elements())
             {
                 ITag childtag = LoadTag(Child);
                 (tag as Tag).Children.Add(childtag);
