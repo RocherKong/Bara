@@ -27,8 +27,11 @@ namespace Bara.Core.Mapper
             _logger = _loggerFactory.CreateLogger<BaraMapper>();
             ConfigLoader = new LocalConfigLoader(loggerFactory);
             ConfigLoader.Load(baraMapConfigFilePath, this);
+            var DbProviderFactory = BaraMapConfig.DataBase.DbProvider.DbProviderFactory;
 
-            
+
+
+
         }
 
         public BaraMapConfig BaraMapConfig { get; private set; }

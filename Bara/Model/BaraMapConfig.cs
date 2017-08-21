@@ -1,6 +1,8 @@
 ﻿using Bara.Abstract.Core;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -77,6 +79,7 @@ namespace Bara.Model
         public WriteDataBase WriteDataBase { get; set; }
         [XmlElement("Read")]
         public List<ReadDataSource> ReadDataSources { get; set; }
+       
     }
 
     public class DbProvider
@@ -87,6 +90,36 @@ namespace Bara.Model
         public String ParameterPrefix { get; set; }
         [XmlAttribute]
         public String Type { get; set; }
+
+        [XmlIgnore]
+        public String TypeName { get { return Type.Split(',')[0]; } }
+        [XmlIgnore]
+        public String AssemblyName { get { return Type.Split(',')[1]; } }
+        private DbProviderFactory _dbProviderFactory;
+
+        public DbProviderFactory DbProviderFactory
+        {
+
+            get
+            {
+                if (_dbProviderFactory == null)
+                {
+                    lock (this)
+                    {
+                        LoadFactory();
+                    }
+                }
+                return _dbProviderFactory;
+            }
+        }
+
+        private void LoadFactory()
+        {
+            _dbProviderFactory = Assembly.Load(new AssemblyName { Name = AssemblyName })
+                .GetType(TypeName)
+                .GetRuntimeField("Instance")
+                .GetValue(null) as DbProviderFactory;
+        }
 
     }
 
