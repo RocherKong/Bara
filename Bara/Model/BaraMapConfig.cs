@@ -79,7 +79,7 @@ namespace Bara.Model
         public WriteDataBase WriteDataBase { get; set; }
         [XmlElement("Read")]
         public List<ReadDataSource> ReadDataSources { get; set; }
-       
+
     }
 
     public class DbProvider
@@ -95,8 +95,10 @@ namespace Bara.Model
         public String TypeName { get { return Type.Split(',')[0]; } }
         [XmlIgnore]
         public String AssemblyName { get { return Type.Split(',')[1]; } }
-        private DbProviderFactory _dbProviderFactory;
 
+        [XmlIgnore]
+        private DbProviderFactory _dbProviderFactory;
+        [XmlIgnore]
         public DbProviderFactory DbProviderFactory
         {
 
