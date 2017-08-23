@@ -1,4 +1,5 @@
 ﻿using Bara.Abstract.Core;
+using Bara.Abstract.DataSource;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -125,7 +126,7 @@ namespace Bara.Model
 
     }
 
-    public class WriteDataBase
+    public class WriteDataBase:IWriteDataSource
     {
         [XmlAttribute]
         public string Name { get; set; }
@@ -134,7 +135,7 @@ namespace Bara.Model
 
     }
 
-    public class ReadDataSource
+    public class ReadDataSource:IReadDataSource
     {
         [XmlAttribute]
         public string Name { get; set; }
