@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bara.Abstract.SqlBuilder
+namespace Bara.Abstract.Builder
 {
     public interface ISqlBuilder
     {

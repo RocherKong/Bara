@@ -1,5 +1,5 @@
 ﻿using Bara.Abstract.Core;
-using Bara.Abstract.SqlBuilder;
+using Bara.Abstract.Builder;
 using Bara.Core.Context;
 using Bara.Exceptions;
 using Bara.Model;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bara.Core.SqlBuilder
+namespace Bara.Core.Builder
 {
     public class SqlBuilder : ISqlBuilder
     {
