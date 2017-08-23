@@ -7,6 +7,9 @@ using Bara.Core.Logger;
 using Microsoft.Extensions.Logging;
 using Bara.Abstract.Config;
 using Bara.Common;
+using System.Data.Common;
+using Bara.Abstract.Session;
+using Bara.Core.Session;
 
 namespace Bara.Core.Mapper
 {
@@ -16,19 +19,25 @@ namespace Bara.Core.Mapper
         private readonly ILogger _logger;
         public IConfigLoader ConfigLoader { get; }
 
-        public BaraMapper(String baraMapConfigFilePath = "BaraMapConfig.xml") : this(NullLoggerFactory.Instance,baraMapConfigFilePath)
+        public DbProviderFactory DbProviderFactory { get; }
+
+        public IDbConnectionSessionStore SessionStore { get; }
+
+
+
+        public BaraMapper(String baraMapConfigFilePath = "BaraMapConfig.xml") : this(NullLoggerFactory.Instance, baraMapConfigFilePath)
         {
 
         }
 
-        public BaraMapper(ILoggerFactory loggerFactory,String baraMapConfigFilePath="BaraMapConfig.xml")
+        public BaraMapper(ILoggerFactory loggerFactory, String baraMapConfigFilePath = "BaraMapConfig.xml")
         {
             _loggerFactory = loggerFactory;
             _logger = _loggerFactory.CreateLogger<BaraMapper>();
             ConfigLoader = new LocalConfigLoader(loggerFactory);
             ConfigLoader.Load(baraMapConfigFilePath, this);
-            var DbProviderFactory = BaraMapConfig.DataBase.DbProvider.DbProviderFactory;
-
+            DbProviderFactory = BaraMapConfig.DataBase.DbProvider.DbProviderFactory;
+            SessionStore = new DbConnectionSessionStore(loggerFactory, this.GetHashCode().ToString());
 
 
 
