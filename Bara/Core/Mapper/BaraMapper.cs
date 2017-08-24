@@ -14,6 +14,8 @@ using Bara.Abstract.Builder;
 using Bara.Core.Builder;
 using Bara.Abstract.DataSource;
 using Bara.Core.DataSource;
+using Bara.Abstract.Executor;
+using Bara.Core.Executor;
 
 namespace Bara.Core.Mapper
 {
@@ -31,6 +33,8 @@ namespace Bara.Core.Mapper
 
         public IDataSourceManager DataSourceManager { get; }
 
+        public ISqlExecutor SqlExecutor { get; }
+
 
         public BaraMapper(String baraMapConfigFilePath = "BaraMapConfig.xml") : this(NullLoggerFactory.Instance, baraMapConfigFilePath)
         {
@@ -47,6 +51,8 @@ namespace Bara.Core.Mapper
             SessionStore = new DbConnectionSessionStore(loggerFactory, this.GetHashCode().ToString());
             SqlBuilder = new SqlBuilder(loggerFactory, this);
             DataSourceManager = new DataSourceManager(loggerFactory, this);
+            SqlExecutor = new SqlExecutor(loggerFactory, SqlBuilder, this);
+
 
 
 
@@ -64,6 +70,12 @@ namespace Bara.Core.Mapper
             BaraMapConfig = config;
         }
 
-
+        public IDbConnectionSession CreateDbSession(DataSourceType dataSourceType)
+        {
+            IDataSource dataSource = DataSourceManager.GetDataSource(dataSourceType);
+            IDbConnectionSession session = new DbConnectionSession(_loggerFactory, DbProviderFactory, dataSource);
+            session.CreateConnection();
+            return session;
+        }
     }
 }
