@@ -35,6 +35,7 @@ namespace Bara.Core.Mapper
 
         public ISqlExecutor SqlExecutor { get; }
 
+        public BaraMapConfig BaraMapConfig { get; private set; }
 
         public BaraMapper(String baraMapConfigFilePath = "BaraMapConfig.xml") : this(NullLoggerFactory.Instance, baraMapConfigFilePath)
         {
@@ -52,17 +53,6 @@ namespace Bara.Core.Mapper
             SqlBuilder = new SqlBuilder(loggerFactory, this);
             DataSourceManager = new DataSourceManager(loggerFactory, this);
             SqlExecutor = new SqlExecutor(loggerFactory, SqlBuilder, this);
-
-
-
-
-        }
-
-        public BaraMapConfig BaraMapConfig { get; private set; }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public void LoadConfig(BaraMapConfig config)
@@ -76,6 +66,16 @@ namespace Bara.Core.Mapper
             IDbConnectionSession session = new DbConnectionSession(_loggerFactory, DbProviderFactory, dataSource);
             session.CreateConnection();
             return session;
+        }
+
+        public void Dispose()
+        {
+            ConfigLoader?.Dispose();
+            if (SessionStore != null)
+            {
+                SessionStore.LocalSession?.Dispose();
+                SessionStore.Dispose();
+            }
         }
     }
 }

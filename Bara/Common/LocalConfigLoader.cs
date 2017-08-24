@@ -19,10 +19,6 @@ namespace Bara.Common
         {
             _logger = loggerFactory.CreateLogger<LocalConfigLoader>();
         }
-        public override void Disponse()
-        {
-            throw new NotImplementedException();
-        }
 
         //总加载器
         //1初始化配置文件（BaraMapConfig），2监控文件BaraMapper   调用器
@@ -90,7 +86,7 @@ namespace Bara.Common
                     var changedBaraMapper = LoadBaraMap(baraMapStream, config);
                     baraMap.Scope = changedBaraMapper.Scope;
                     baraMap.Statements = changedBaraMapper.Statements;
-                    
+
                     config.ClearMappedStatements();
 
                 });
@@ -113,5 +109,11 @@ namespace Bara.Common
             var baraMap = LoadBaraMap(baraMapSteam, baraMapConfig);
             baraMapConfig.BaraMaps.Add(baraMap);
         }
+
+        public override void Disponse()
+        {
+            FileWatcherLoader.Instance.Clear();
+        }
+
     }
 }

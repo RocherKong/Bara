@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Bara.Abstract.Config
 {
-    public interface IConfigLoader
+    public interface IConfigLoader : IDisposable
     {
         /// <summary>
         /// 加载配置文件
