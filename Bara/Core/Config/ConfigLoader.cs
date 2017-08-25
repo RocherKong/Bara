@@ -11,7 +11,7 @@ namespace Bara.Core.Config
 {
     public abstract class ConfigLoader : IConfigLoader
     {
-        public abstract void Disponse();
+        public abstract void Dispose();
         public abstract BaraMapConfig Load(string filePath, IBaraMapper baraMapper);
 
         public BaraMapConfig LoadConfig(ConfigStream ConfigStream, IBaraMapper baraMapper)
@@ -53,8 +53,5 @@ namespace Bara.Core.Config
                 return baraMap;
             }
         }
-
-
-
     }
 }

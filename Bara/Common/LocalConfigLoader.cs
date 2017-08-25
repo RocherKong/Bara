@@ -110,7 +110,7 @@ namespace Bara.Common
             baraMapConfig.BaraMaps.Add(baraMap);
         }
 
-        public override void Disponse()
+        public override void Dispose()
         {
             FileWatcherLoader.Instance.Clear();
         }

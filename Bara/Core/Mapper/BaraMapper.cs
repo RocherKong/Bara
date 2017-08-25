@@ -16,6 +16,7 @@ using Bara.Abstract.DataSource;
 using Bara.Core.DataSource;
 using Bara.Abstract.Executor;
 using Bara.Core.Executor;
+using Bara.Core.Context;
 
 namespace Bara.Core.Mapper
 {
@@ -68,6 +69,10 @@ namespace Bara.Core.Mapper
             return session;
         }
 
+        #region Sync
+
+        #endregion
+
         public void Dispose()
         {
             ConfigLoader?.Dispose();
@@ -76,6 +81,26 @@ namespace Bara.Core.Mapper
                 SessionStore.LocalSession?.Dispose();
                 SessionStore.Dispose();
             }
+        }
+
+        public int Execute(RequestContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T ExecuteScalar<T>(RequestContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T QuerySingle<T>(RequestContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<T> Query<T>(RequestContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }
