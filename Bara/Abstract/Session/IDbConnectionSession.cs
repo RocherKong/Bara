@@ -19,6 +19,8 @@ namespace Bara.Abstract.Session
 
         IDbConnection CreateConnection();
 
+        IDbTransaction DbTransaction { get; }
+
         void OpenConnection();
 
         void CloseConnection();

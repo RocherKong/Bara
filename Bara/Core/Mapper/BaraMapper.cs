@@ -17,6 +17,7 @@ using Bara.Core.DataSource;
 using Bara.Abstract.Executor;
 using Bara.Core.Executor;
 using Bara.Core.Context;
+using Dapper;
 
 namespace Bara.Core.Mapper
 {
@@ -85,7 +86,12 @@ namespace Bara.Core.Mapper
 
         public int Execute(RequestContext context)
         {
-            throw new NotImplementedException();
+            int result = SqlExecutor.Execute<int>(context, DataSourceType.Write, (strsql, session) =>
+            {
+                return session.Connection.Execute(strsql, context.Request, session.DbTransaction);
+            });
+
+            return result;
         }
 
         public T ExecuteScalar<T>(RequestContext context)
