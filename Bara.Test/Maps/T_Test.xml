@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <BaraMap Scope="T_Test" xmlns="http://bara.github.io/schemas/BaraMap.xsd">
- <!-- <Caches>
+  <!-- <Caches>
     <Cache Id="T_Test.RedisCache" Type="Bara.Cache.Redis.RedisCacheProvider,Bara.Cache.Redis">
       <Parameter Key="CacheSize" Value="1000"/>
       <Parameter Key="ConnectionString" Value="localhost"/>
@@ -20,8 +20,15 @@
     <Statement Id="QueryParams">
       Where 1=1
       <IsNotEmpty Property="Name" Prepend="And">
-        <IsNotEmpty Property="Id" Prepend="And">
-          
+        T.Name=@Name
+      </IsNotEmpty>
+      <IsNotEmpty Property="Id" Prepend="And">
+        T.Id=@Id
+      </IsNotEmpty>
+      <IsNotEmpty Property="Temp" Prepend="And">
+        T.Id=@Id
+        <IsNotEmpty Property="Name" Prepend="And">
+          T.Name=@Name
         </IsNotEmpty>
       </IsNotEmpty>
       <!--<Switch Prepend="Order By" Property="OrderBy">
