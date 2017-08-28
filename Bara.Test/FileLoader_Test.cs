@@ -74,13 +74,14 @@ namespace Bara.Test
         [Fact, Trait("Category", "A")]
         public void XmlLoaderTest()
         {
-            XDocument doc = XDocument.Load(@"E:\T_Test.xml");
+            XDocument doc = XDocument.Load(@"Maps\T_Test.xml");
             XElement xele = doc.Root;
             XNamespace ns = xele.GetDefaultNamespace();
             //XElement xStatements =new XElement(ns+"Statements");
             foreach (var item in xele.Descendants(ns + "Statement"))
             {
                 Trace.WriteLine(item.Name);
+
             }
 
 
@@ -96,6 +97,60 @@ namespace Bara.Test
 
             //  Trace.WriteLine(Scope);
 
+        }
+
+        [Fact]
+        public void XRead_Test()
+        {
+            XmlReader xmlRdr = XmlReader.Create(@"Maps\T_Test.XML");
+            while (xmlRdr.Read()) {
+                switch (xmlRdr.NodeType)
+                {
+                    case XmlNodeType.Attribute:
+                        break;
+                    case XmlNodeType.CDATA:
+                        break;
+                    case XmlNodeType.Comment:
+                        break;
+                    case XmlNodeType.Document:
+                        break;
+                    case XmlNodeType.DocumentFragment:
+                        break;
+                    case XmlNodeType.DocumentType:
+                        break;
+                    case XmlNodeType.Element:
+                        {
+
+                            var result = xmlRdr.Read();
+                                
+                                break;
+                        }
+                    case XmlNodeType.EndElement:
+                        break;
+                    case XmlNodeType.EndEntity:
+                        break;
+                    case XmlNodeType.Entity:
+                        break;
+                    case XmlNodeType.EntityReference:
+                        break;
+                    case XmlNodeType.None:
+                        break;
+                    case XmlNodeType.Notation:
+                        break;
+                    case XmlNodeType.ProcessingInstruction:
+                        break;
+                    case XmlNodeType.SignificantWhitespace:
+                        break;
+                    case XmlNodeType.Text:
+                        break;
+                    case XmlNodeType.Whitespace:
+                        break;
+                    case XmlNodeType.XmlDeclaration:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         [Fact]
