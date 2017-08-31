@@ -18,6 +18,7 @@ using Bara.Abstract.Executor;
 using Bara.Core.Executor;
 using Bara.Core.Context;
 using Dapper;
+using System.Threading.Tasks;
 
 namespace Bara.Core.Mapper
 {
@@ -71,19 +72,6 @@ namespace Bara.Core.Mapper
         }
 
         #region Sync
-
-        #endregion
-
-        public void Dispose()
-        {
-            ConfigLoader?.Dispose();
-            if (SessionStore != null)
-            {
-                SessionStore.LocalSession?.Dispose();
-                SessionStore.Dispose();
-            }
-        }
-
         public int Execute(RequestContext context)
         {
             int result = SqlExecutor.Execute<int>(context, DataSourceType.Write, (strsql, session) =>
@@ -109,9 +97,9 @@ namespace Bara.Core.Mapper
             return result;
         }
 
-        public T QuerySingle<T>(RequestContext context)
+        public T QuerySingle<T>(RequestContext context,DataSourceType dataSourceType=DataSourceType.Read)
         {
-            T result = SqlExecutor.Execute<T>(context, DataSourceType.Read, (sqlStr, session) =>
+            T result = SqlExecutor.Execute<T>(context, dataSourceType, (sqlStr, session) =>
             {
                 return session.Connection.QuerySingleOrDefault<T>(sqlStr, context.Request, session.DbTransaction);
             });
@@ -143,5 +131,73 @@ namespace Bara.Core.Mapper
                 }
             }
         }
+        #endregion
+
+        #region Async
+        public async Task<int> ExecuteAsync(RequestContext context)
+        {
+            int result = await SqlExecutor.ExecuteAsync<int>(context, DataSourceType.Write, (sqlstr, session) =>
+            {
+                return session.Connection.ExecuteAsync(sqlstr, context.Request, session.DbTransaction);
+            });
+            return result;
+        }
+
+        public async Task<T> ExecuteScalarAsync<T>(RequestContext context)
+        {
+            T result =await SqlExecutor.ExecuteAsync<T>(context, DataSourceType.Read, (sqlStr, session) =>
+            {
+                return session.Connection.ExecuteScalarAsync<T>(sqlStr, context.Request, session.DbTransaction);
+            });
+            return result;
+        }
+
+        public async Task<T> QuerySingleAsync<T>(RequestContext context, DataSourceType dataSourceType = DataSourceType.Read)
+        {
+            T result =await SqlExecutor.ExecuteAsync<T>(context, dataSourceType, (sqlStr, session) =>
+            {
+                return session.Connection.QuerySingleOrDefaultAsync<T>(sqlStr, context.Request, session.DbTransaction);
+            });
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> QueryAsync<T>(RequestContext context, DataSourceType sourceType = DataSourceType.Read)
+        {
+            IDbConnectionSession session = SessionStore.LocalSession;
+            if (session == null)
+            {
+                session = CreateDbSession(sourceType);
+            }
+            string sqlStr = SqlBuilder.BuildSql(context);
+            try
+            {
+                var result =await session.Connection.QueryAsync<T>(sqlStr, context.Request, session.DbTransaction);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (session.LifeCycle == DbSessionLifeCycle.Transient)
+                {
+                    session.CloseConnection();
+                }
+            }
+        }
+        #endregion
+
+        public void Dispose()
+        {
+            ConfigLoader?.Dispose();
+            if (SessionStore != null)
+            {
+                SessionStore.LocalSession?.Dispose();
+                SessionStore.Dispose();
+            }
+        }
+
+
     }
 }

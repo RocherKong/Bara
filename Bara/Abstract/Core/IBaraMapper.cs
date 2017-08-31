@@ -26,7 +26,7 @@ namespace Bara.Abstract.Core
 
         T ExecuteScalar<T>(RequestContext context);
 
-        T QuerySingle<T>(RequestContext context);
+        T QuerySingle<T>(RequestContext context, DataSourceType dataSourceType);
 
         IEnumerable<T> Query<T>(RequestContext context, DataSourceType dataSourceType);
 
