@@ -11,6 +11,7 @@ namespace Bara.Test
         [Fact]
         public void BaraMapperLoader_Test()
         {
+
             BaraMapper mapper = new BaraMapper(baraMapConfigFilePath: "BaraMapConfig.xml");
 
             int i = mapper.Execute(new Core.Context.RequestContext
