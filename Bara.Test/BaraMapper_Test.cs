@@ -30,13 +30,14 @@ namespace Bara.Test
         [Fact]
         public void QuerySingle_Test()
         {
-            var result = mapper.Query<T_Test>(new Core.Context.RequestContext
+            var result = mapper.QuerySingle<T_Test>(new Core.Context.RequestContext
             {
-                SqlId = "GetList",
-                Scope = "T_Test"
+                SqlId = "GetEntity",
+                Scope = "T_Test",
+                Request = new { Id = 1 }
             });
 
-          
+
         }
     }
 }

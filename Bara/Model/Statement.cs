@@ -105,7 +105,7 @@ namespace Bara.Model
             if (node.NodeType == System.Xml.XmlNodeType.Element)
             {
                 XElement elenode = node as XElement;
-                bool isIn = elenode.Attributes("In") != null;
+                bool isIn = elenode.Attribute("In") != null;
                 var prepend = elenode.Attribute("Prepend")?.Value.Trim();
                 var property = elenode.Attribute("Property")?.Value.Trim();
                 var compareValue = elenode.Attribute("CompareValue")?.Value.Trim();
