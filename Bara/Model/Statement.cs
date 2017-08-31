@@ -77,7 +77,7 @@ namespace Bara.Model
                     }
                 }
 
-                if (node.NodeType == System.Xml.XmlNodeType.Text)
+                if (node.NodeType == System.Xml.XmlNodeType.Text || node.NodeType == System.Xml.XmlNodeType.CDATA)
                 {
                     statement.SqlTags.Add(new SqlText
                     {
@@ -95,7 +95,7 @@ namespace Bara.Model
         public static ITag LoadTag(XNode node)
         {
             ITag tag = null;
-            if (node.NodeType == System.Xml.XmlNodeType.Text)
+            if (node.NodeType == System.Xml.XmlNodeType.Text || node.NodeType == System.Xml.XmlNodeType.CDATA)
             {
                 tag = new SqlText
                 {
