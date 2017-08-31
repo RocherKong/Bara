@@ -15,9 +15,7 @@ namespace Bara.Model
     {
         [XmlAttribute]
         public String Id { get; set; }
-
         public String FullSqlId => $"{BaraMap.Scope}.{Id}";
-
         public List<ITag> SqlTags { get; set; }
 
         [XmlIgnore]
@@ -86,10 +84,7 @@ namespace Bara.Model
                 }
 
             }
-
             return statement;
-
-
         }
 
         public static ITag LoadTag(XNode node)
@@ -277,7 +272,6 @@ namespace Bara.Model
             }
             return tag;
         }
-
         public String BuildSql(RequestContext context)
         {
             String prefix = BaraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
@@ -288,6 +282,5 @@ namespace Bara.Model
             }
             return sqlStr.ToString();
         }
-
     }
 }
