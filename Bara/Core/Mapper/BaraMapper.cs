@@ -111,7 +111,11 @@ namespace Bara.Core.Mapper
 
         public T QuerySingle<T>(RequestContext context)
         {
-            throw new NotImplementedException();
+            T result = SqlExecutor.Execute<T>(context, DataSourceType.Read, (sqlStr, session) =>
+            {
+                return session.Connection.QuerySingleOrDefault<T>(sqlStr, context.Request, session.DbTransaction);
+            });
+            return result;
         }
 
         public IEnumerable<T> Query<T>(RequestContext context, DataSourceType sourceType = DataSourceType.Read)
@@ -131,8 +135,10 @@ namespace Bara.Core.Mapper
             {
                 throw ex;
             }
-            finally {
-                if (session.LifeCycle == DbSessionLifeCycle.Transient) {
+            finally
+            {
+                if (session.LifeCycle == DbSessionLifeCycle.Transient)
+                {
                     session.CloseConnection();
                 }
             }
