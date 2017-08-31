@@ -32,296 +32,205 @@ namespace Bara.Model
                 BaraMap = baraMap
             };
 
-            statement.SqlTags.AddRange(GetTagList(xele,baraMap));
-            //IEnumerable<XNode> childNodes = xele.Nodes();
-            //foreach (var node in childNodes)
-            //{
-            //    var tag = LoadEle(node, baraMap);
-            //    if (tag != null)
-            //        statement.SqlTags.Add(tag);
-            //}
+            IEnumerable<XNode> childNodes = xele.Nodes();
+            foreach (var node in childNodes)
+            {
+                String tagName = "";
+
+                if (node.NodeType == System.Xml.XmlNodeType.Element)
+                {
+                    XElement elenode = node as XElement;
+                    var prepend = elenode.Attribute("Prepend")?.Value;
+                    var property = elenode.Attribute("Property")?.Value;
+                    tagName = elenode.Name.LocalName;
+
+                    switch (tagName)
+                    {
+                        case "Include":
+                            {
+                                var refId = elenode.Attribute("RefId")?.Value;
+                                var refStatement = baraMap.Statements.FirstOrDefault(x => x.Id == refId);
+                                if (refStatement == null)
+                                {
+                                    throw new BaraException($"Statement can't Load ref which id is:{refId}");
+                                }
+                                if (refId == statement.Id)
+                                {
+                                    throw new BaraException($"Statement can't load self,try another Id");
+                                }
+                                statement.SqlTags.Add(new Include
+                                {
+                                    RefId = refId,
+                                    Ref = refStatement
+                                });
+                                break;
+                            }
+                        default:
+                            {
+                                var tag = LoadTag(node);
+                                if (tag != null)
+                                {
+                                    statement.SqlTags.Add(tag);
+                                }
+                                break;
+                            }
+                    }
+                }
+
+                if (node.NodeType == System.Xml.XmlNodeType.Text)
+                {
+                    statement.SqlTags.Add(new SqlText
+                    {
+                        BodyText = node.ToString()
+                    });
+                }
+
+            }
 
             return statement;
 
 
         }
 
-        public static IList<ITag> GetTagList(XElement xele, BaraMap baraMap)
-        {
-            IList<ITag> tagList = new List<ITag>();
-            IEnumerable<XNode> childNodes = xele.Nodes();
-            foreach (var node in childNodes)
-            {
-                var tag = LoadEle(node, baraMap);
-                if (tag != null)
-                    tagList.Add(tag);
-            }
-            return tagList;
-        }
-
-        public static ITag LoadEle(XNode xnode, BaraMap baraMap)
-        {
-            if (xnode.NodeType == System.Xml.XmlNodeType.Text)
-            {
-                return new SqlText
-                {
-                    BodyText = xnode.ToString(),
-                };
-            }
-
-            if (xnode.NodeType == System.Xml.XmlNodeType.Comment)
-            {
-                return null;
-            }
-
-
-            //如果是正常Statement 加载不同tag
-            var ele = (xnode as XElement);
-            var tagName = ele.Name.LocalName;
-            switch (tagName)
-            {
-                case "Include":
-                    {
-                        var refId = ele.Attribute("RefId").Value;
-                        return new Include
-                        {
-                            RefId = refId,
-                            Ref = baraMap.Statements.FirstOrDefault(x => x.Id == refId)
-                        };
-                    }
-                default:
-                    {
-                        ITag tag;
-                        bool isIn = ele?.Attributes("In") != null;
-                        var prepend = ele?.Attribute("Prepend")?.Value;
-                        var property = ele?.Attribute("Property")?.Value;
-                        var compareValue = ele?.Attribute("CompareValue")?.Value;
-                        switch (ele?.Name.LocalName)
-                        {
-                            case "#text":
-                            case "cdata-section":
-                                {
-                                    var bodyText = ele.Value.Replace("\n", "");
-                                    return new SqlText
-                                    {
-                                        BodyText = bodyText
-                                    };
-                                }
-                            case "IsNotEmpty":
-                                {
-                                    tag = new IsNotEmpty
-                                    {
-                                        In = isIn,
-                                        Prepend = prepend,
-                                        Property = property,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            case "IsEmpty":
-                                {
-                                    tag = new IsEmpty
-                                    {
-                                        Property = property,
-                                        Prepend = prepend,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            case "IsGreaterThan":
-                                {
-                                    tag = new IsGreaterThan
-                                    {
-                                        Prepend = prepend,
-                                        Property = property,
-                                        CompareValue = compareValue,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            case "IsGreaterEqual":
-                                {
-                                    tag = new IsGreaterEqual
-                                    {
-                                        Prepend = prepend,
-                                        Property = property,
-                                        CompareValue = compareValue,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            case "IsLessThan":
-                                {
-                                    tag = new IsLessThan
-                                    {
-                                        Prepend = prepend,
-                                        Property = property,
-                                        CompareValue = compareValue,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            case "IsLessEqual":
-                                {
-                                    tag = new IsLessEqual
-                                    {
-                                        Prepend = prepend,
-                                        Property = property,
-                                        CompareValue = compareValue,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            case "IsEqual":
-                                {
-                                    tag = new IsEqual
-                                    {
-                                        Prepend = prepend,
-                                        Property = property,
-                                        CompareValue = compareValue,
-                                        Children = new List<ITag>()
-                                    };
-                                    break;
-                                }
-                            default:
-                                return null;
-                        };
-
-                        if (ele.Nodes().Count() > 0)
-                        {
-                            //var taglist=GetTagList(ele, baraMap);
-                            //foreach (var _tag in taglist)
-                            //{
-
-                            //}
-                            //(tag as Tag).Children.Add(LoadEle((ele as XNode), baraMap));
-                        }
-                        return tag;
-                    }
-
-            }
-
-        }
-
-        public static ITag LoadTag(XElement xmlNode)
+        public static ITag LoadTag(XNode node)
         {
             ITag tag = null;
-            bool isIn = xmlNode?.Attributes("In") != null;
-            var prepend = xmlNode?.Attribute("Prepend")?.Value;
-            var property = xmlNode?.Attribute("Property")?.Value;
-            var compareValue = xmlNode?.Attribute("CompareValue")?.Value;
-            switch (xmlNode?.Name.LocalName)
+            if (node.NodeType == System.Xml.XmlNodeType.Text)
             {
-                case "#text":
-                case "cdata-section":
-                    {
-                        var bodyText = xmlNode.Value.Replace("\n", "");
-                        return new SqlText
-                        {
-                            BodyText = bodyText
-                        };
-                    }
-                case "IsNotEmpty":
-                    {
-                        tag = new IsNotEmpty
-                        {
-                            In = isIn,
-                            Prepend = prepend,
-                            Property = property,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                case "IsEmpty":
-                    {
-                        tag = new IsEmpty
-                        {
-                            Property = property,
-                            Prepend = prepend,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                case "IsGreaterThan":
-                    {
-                        tag = new IsGreaterThan
-                        {
-                            Prepend = prepend,
-                            Property = property,
-                            CompareValue = compareValue,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                case "IsGreaterEqual":
-                    {
-                        tag = new IsGreaterEqual
-                        {
-                            Prepend = prepend,
-                            Property = property,
-                            CompareValue = compareValue,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                case "IsLessThan":
-                    {
-                        tag = new IsLessThan
-                        {
-                            Prepend = prepend,
-                            Property = property,
-                            CompareValue = compareValue,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                case "IsLessEqual":
-                    {
-                        tag = new IsLessEqual
-                        {
-                            Prepend = prepend,
-                            Property = property,
-                            CompareValue = compareValue,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                case "IsEqual":
-                    {
-                        tag = new IsEqual
-                        {
-                            Prepend = prepend,
-                            Property = property,
-                            CompareValue = compareValue,
-                            Children = new List<ITag>()
-                        };
-                        break;
-                    }
-                default:
-                    return null;
+                tag = new SqlText
+                {
+                    BodyText = node.ToString()
+                };
             }
-
-            foreach (var Child in xmlNode.Nodes())
+            if (node.NodeType == System.Xml.XmlNodeType.Element)
             {
-                if (Child.NodeType == System.Xml.XmlNodeType.Text)
+                XElement elenode = node as XElement;
+                bool isIn = elenode.Attributes("In") != null;
+                var prepend = elenode.Attribute("Prepend")?.Value.Trim();
+                var property = elenode.Attribute("Property")?.Value.Trim();
+                var compareValue = elenode.Attribute("CompareValue")?.Value.Trim();
+                var nodeName = elenode.Name.LocalName;
+                switch (nodeName)
                 {
-                    (tag as Tag).Children.Add(new SqlText
+                    case "IsEmpty":
+                        {
+                            tag = new IsEmpty
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+
+                    case "IsEqual":
+                        {
+                            tag = new IsEqual
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                CompareValue = compareValue,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "IsGreaterEqual":
+                        {
+                            tag = new IsGreaterEqual
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                CompareValue = compareValue,
+                            };
+                            break;
+                        }
+                    case "IsGreaterThan":
+                        {
+                            tag = new IsGreaterThan
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                CompareValue = compareValue,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "IsLessEqual":
+                        {
+                            tag = new IsLessEqual
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                CompareValue = compareValue,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "IsLessThan":
+                        {
+                            tag = new IsLessThan
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                CompareValue = compareValue,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "IsNotEmpty":
+                        {
+                            tag = new IsNotEmpty
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "IsNotNull":
+                        {
+                            tag = new IsNotNull
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "IsNull":
+                        {
+                            tag = new IsNull
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    default:
+                        {
+                            throw new BaraException($"Statement can't load TagName:{nodeName}");
+                        }
+                }
+                foreach (var childNode in elenode.Nodes())
+                {
+                    ITag childTag = LoadTag(childNode);
+                    if (childTag != null && tag != null)
                     {
-                        BodyText = Child.ToString()
-                    });
+                        (tag as Tag).Children.Add(childTag);
+                    }
                 }
-                else
-                {
-                    ITag childtag = LoadTag(Child as XElement);
-                    (tag as Tag).Children.Add(childtag);
-                }
-
-
             }
-
             return tag;
-
-
         }
 
         public String BuildSql(RequestContext context)
