@@ -228,6 +228,39 @@ namespace Bara.Model
                             };
                             break;
                         }
+                    case "Switch":
+                        {
+                            tag = new Switch
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "Case":
+                        {
+                            tag = new Switch.Case
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "Default":
+                        {
+                            tag = new Switch.Default
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
                     default:
                         {
                             throw new BaraException($"Statement can't load TagName:{nodeName}");

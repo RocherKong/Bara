@@ -31,7 +31,7 @@
           T.Name=@Name
         </IsNotEmpty>
       </IsNotEmpty>
-      <!--<Switch Prepend="Order By" Property="OrderBy">
+      <Switch Prepend="And" Property="Status">
         <Case CompareValue="1">
           Id Desc
         </Case>
@@ -41,7 +41,7 @@
         <Case CompareValue="3">
           Name Desc
         </Case>
-      </Switch>-->
+      </Switch>
     </Statement>
     <!--新增-->
     <Statement Id="Insert">
