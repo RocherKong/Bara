@@ -94,9 +94,19 @@ namespace Bara.Core.Mapper
             return result;
         }
 
+        //
+        // 摘要:
+        //     Execute parameterized SQL that selects a single value
+        //
+        // 返回结果:
+        //     The first cell selected
         public T ExecuteScalar<T>(RequestContext context)
         {
-            throw new NotImplementedException();
+            T result = SqlExecutor.Execute<T>(context, DataSourceType.Read, (sqlStr, session) =>
+            {
+                return session.Connection.ExecuteScalar<T>(sqlStr, context.Request, session.DbTransaction);
+            });
+            return result;
         }
 
         public T QuerySingle<T>(RequestContext context)
@@ -104,9 +114,28 @@ namespace Bara.Core.Mapper
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> Query<T>(RequestContext context)
+        public IEnumerable<T> Query<T>(RequestContext context, DataSourceType sourceType = DataSourceType.Read)
         {
-            throw new NotImplementedException();
+            IDbConnectionSession session = SessionStore.LocalSession;
+            if (session == null)
+            {
+                session = CreateDbSession(sourceType);
+            }
+            string sqlStr = SqlBuilder.BuildSql(context);
+            try
+            {
+                var result = session.Connection.Query<T>(sqlStr, context.Request, session.DbTransaction);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally {
+                if (session.LifeCycle == DbSessionLifeCycle.Transient) {
+                    session.CloseConnection();
+                }
+            }
         }
     }
 }

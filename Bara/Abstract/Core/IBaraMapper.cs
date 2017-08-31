@@ -28,7 +28,7 @@ namespace Bara.Abstract.Core
 
         T QuerySingle<T>(RequestContext context);
 
-        IEnumerable<T> Query<T>(RequestContext context);
+        IEnumerable<T> Query<T>(RequestContext context, DataSourceType dataSourceType);
 
 
 
