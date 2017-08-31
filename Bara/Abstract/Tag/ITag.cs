@@ -27,6 +27,7 @@ namespace Bara.Abstract.Tag
         IsNull,
         Include,
         Switch,
-        Case
+        Case,
+        SwitchDefault
     }
 }
