@@ -136,6 +136,18 @@ namespace Bara.Model
                             };
                             break;
                         }
+                    case "IsNotEqual":
+                        {
+                            tag = new IsNotEqual
+                            {
+                                In = isIn,
+                                Prepend = prepend,
+                                CompareValue = compareValue,
+                                Property = property,
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
                     case "IsGreaterEqual":
                         {
                             tag = new IsGreaterEqual
