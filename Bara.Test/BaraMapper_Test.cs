@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace Bara.Test
 {
@@ -12,16 +14,21 @@ namespace Bara.Test
         public BaraMapper mapper { get; private set; }
         public BaraMapper_Test()
         {
-            mapper = new BaraMapper(baraMapConfigFilePath: "BaraMapConfig.xml");
+            //.ConfigureNLog("Nlog.config")
+            ILoggerFactory loggerFactory = new LoggerFactory().AddNLog();
+            loggerFactory.ConfigureNLog("Nlog.config");
+
+            mapper = new BaraMapper(loggerFactory, baraMapConfigFilePath: "BaraMapConfig.xml");
         }
         [Fact]
         public void BaraMapperLoader_Test()
         {
+
             int i = mapper.Execute(new Core.Context.RequestContext
             {
                 Scope = "T_Test",
                 SqlId = "Insert",
-                Request = new { Id = 1, Name = "Rocher" }
+                Request = new { Id = 2, Name = "Rocher2" }
             });
 
             Assert.IsType<BaraMapper>(mapper);
