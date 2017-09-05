@@ -24,6 +24,7 @@ namespace Bara.Common
         //1初始化配置文件（BaraMapConfig），2监控文件BaraMapper   调用器
         public override BaraMapConfig Load(String filePath, IBaraMapper baraMapper)
         {
+            _logger.LogDebug($"加载配置文件{filePath}");
             var configStream = LoadConfigStream(filePath);
             var Config = LoadConfig(configStream, baraMapper);
             foreach (var baraMapSource in Config.BaraMapSources)
@@ -73,6 +74,7 @@ namespace Bara.Common
             ///监控Config
             FileWatcherLoader.Instance.Watch(ConfigFileInfo, () =>
             {
+                _logger.LogInformation("配置文件改变，重新加载配置文件");
                 var changedConfig = Load(config.Path, config.BaraMapper);
                 config.BaraMapper.LoadConfig(changedConfig);
             });

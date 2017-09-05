@@ -20,7 +20,7 @@
     <Statement Id="QueryParams">
       Where 1=1
       <IsNotEmpty Property="Name" Prepend="And">
-        T.Name=@Name
+        T.Name=@Name 
       </IsNotEmpty>
       <IsNotEmpty Property="Id" Prepend="And">
         T.Id=@Id

@@ -74,6 +74,7 @@ namespace Bara.Core.Mapper
         #region Sync
         public int Execute(RequestContext context)
         {
+
             int result = SqlExecutor.Execute<int>(context, DataSourceType.Write, (strsql, session) =>
             {
                 return session.Connection.Execute(strsql, context.Request, session.DbTransaction);
