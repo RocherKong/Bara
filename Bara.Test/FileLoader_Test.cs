@@ -11,6 +11,7 @@ using Bara.Abstract.Core;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using Bara.Core.Config;
 
 namespace Bara.Test
 {
@@ -47,15 +48,17 @@ namespace Bara.Test
             //var fileStream = FileLoader.Load(@"E:\BaraMapConfig.xml");
             XmlSerializer serializer = new XmlSerializer(typeof(BaraMapConfig));
             BaraMapConfig config = null;
-            using (var configStream = FileLoader.Load(@"E:\BaraMapConfig.xml"))
+            using (var configStream = FileLoader.Load("BaraMapConfig.xml"))
             {
                 config = serializer.Deserialize(configStream) as BaraMapConfig;
-
+                config.BaraMaps = new List<BaraMap> { };
             }
+
+         
 
             foreach (var baramap in config.BaraMapSources)
             {
-
+                LoadBaraMap(baramap.Path, config);
             }
 
             Trace.WriteLine("OK");
@@ -162,6 +165,49 @@ namespace Bara.Test
             var config = loader.Load("BaraMapConfig.xml", null);
         }
 
+        public ConfigStream LoadConfigStream(String path)
+        {
+            var configStream = new ConfigStream
+            {
+                Path = path,
+                Stream = FileLoader.Load(path)
+            };
+            return configStream;
+        }
+
+        public void LoadBaraMap(string filePath, BaraMapConfig baraMapConfig)
+        {
+            var baraMapSteam = LoadConfigStream(filePath);
+            var baraMap = LoadBaraMap(baraMapSteam, baraMapConfig);
+            baraMapConfig.BaraMaps.Add(baraMap);
+        }
+
+        public BaraMap LoadBaraMap(ConfigStream configStream, BaraMapConfig baraMapConfig)
+        {
+            using (configStream.Stream)
+            {
+                var baraMap = new BaraMap
+                {
+                    BaraMapConfig = baraMapConfig,
+                    Path = configStream.Path,
+                    Statements = new List<Statement> { },
+                };
+
+                XDocument xdoc = XDocument.Load(configStream.Stream);
+                XElement xele = xdoc.Root;
+                XNamespace ns = xele.GetDefaultNamespace();
+                IEnumerable<XElement> StatementList = xele.Descendants(ns + "Statement");
+                baraMap.Scope = (String)xele.Attribute("Scope");
+
+
+                foreach (var statementNode in StatementList)
+                {
+                    var _statement = Statement.Load(statementNode, baraMap);
+                    baraMap.Statements.Add(_statement);
+                }
+                return baraMap;
+            }
+        }
 
     }
 }

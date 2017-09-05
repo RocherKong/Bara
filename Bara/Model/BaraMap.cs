@@ -11,7 +11,11 @@ namespace Bara.Model
         [XmlAttribute("Scope")]
         public String Scope { get; set; }
 
-        //public List<Cache> Caches { get; set; }
+        //[XmlArray("Caches")]
+        //[XmlArrayItem("Cache")]
+        [XmlArray]
+        public List<Cache> Caches { get; set; }
+
         [XmlArray]
         public List<Statement> Statements { get; set; }
 
