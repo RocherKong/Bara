@@ -35,6 +35,7 @@ namespace Bara.Core.Config
                 {
                     BaraMapConfig = baraMapConfig,
                     Path = configStream.Path,
+                    Caches=new List<Cache> { },
                     Statements = new List<Statement> { },
                 };
 
@@ -44,7 +45,16 @@ namespace Bara.Core.Config
                 IEnumerable<XElement> StatementList = xele.Descendants(ns + "Statement");
                 baraMap.Scope = (String)xele.Attribute("Scope");
 
-               
+                //Load CacheConfig
+                IEnumerable<XElement> CacheList = xele.Descendants(ns+"Cache");
+                foreach (var cache in CacheList)
+                {
+                    //Load XElement
+                    var _cache = Bara.Model.Cache.Load(cache);
+                    baraMap.Caches.Add(_cache);
+                }
+
+                //Load Statements
                 foreach (var statementNode in StatementList)
                 {
                     var _statement = Statement.Load(statementNode, baraMap);

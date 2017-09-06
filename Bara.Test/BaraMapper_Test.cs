@@ -23,12 +23,11 @@ namespace Bara.Test
         [Fact]
         public void BaraMapperLoader_Test()
         {
-
             int i = mapper.Execute(new Core.Context.RequestContext
             {
                 Scope = "T_Test",
                 SqlId = "Insert",
-                Request = new { Id = 2, Name = "Rocher2" }
+                Request = new { Id = 3, Name = "Rocher3" }
             });
 
             Assert.IsType<BaraMapper>(mapper);

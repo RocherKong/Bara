@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Bara.Model
 {
     public class Cache
     {
-        [XmlAttribute]
+        public static Cache Load(XElement element) {
+            var cache = new Cache {
+                Id = element.Attribute("Id").Value,
+                Type = element.Attribute("Type").Value,
+                Parameters = new Dictionary<String, String>(),
+                FlushOnExecutes = new List<CacheFlushOnExecute> { }
+                
+            };
+
+
+
+            return cache;
+        }
+
         public String Id { get; set; }
 
-        [XmlAttribute]
         public String Type { get; set; }
 
-        [XmlArray("Parameter")]
-        public List<Parameter> Parameters { get; set; }
-
+        public IDictionary<String,String> Parameters { get; set; }
 
         public class Parameter
         {
@@ -24,10 +35,9 @@ namespace Bara.Model
             public String Value { get; set; }
         }
 
-        [XmlElement("FlushInterval")]
-        public FlushInterval flushInterval { get; set; }
+        public CacheFlushInterval FlushInterval { get; set; }
 
-        public class FlushInterval
+        public class CacheFlushInterval
         {
             public int Hours { get; set; }
 
@@ -36,10 +46,10 @@ namespace Bara.Model
             public int Seconds { get; set; }
         }
 
-        [XmlArray("FlushOnExecute")]
-        public List<FlushOnExecute> flushOnExecute { get; set; }
+        public IList<CacheFlushOnExecute> FlushOnExecutes { get; set; }
 
-        public class FlushOnExecute
+
+        public class CacheFlushOnExecute
         {
             public String Statement { get; set; }
         }

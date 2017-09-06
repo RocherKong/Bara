@@ -54,8 +54,6 @@ namespace Bara.Test
                 config.BaraMaps = new List<BaraMap> { };
             }
 
-         
-
             foreach (var baramap in config.BaraMapSources)
             {
                 LoadBaraMap(baramap.Path, config);
@@ -63,6 +61,18 @@ namespace Bara.Test
 
             Trace.WriteLine("OK");
             //  BaraMapConfig config = JsonConvert.DeserializeObject<BaraMapConfig>(fileStream);
+        }
+
+        [Fact]
+        public void XmlFileDeserize()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(BaraMap));
+            BaraMap config = null;
+            using (var configStream = FileLoader.Load(@"Maps\T_Test.xml"))
+            {
+                config = serializer.Deserialize(configStream) as BaraMap;
+            }
+
         }
 
         [Fact]
@@ -106,7 +116,8 @@ namespace Bara.Test
         public void XRead_Test()
         {
             XmlReader xmlRdr = XmlReader.Create(@"Maps\T_Test.XML");
-            while (xmlRdr.Read()) {
+            while (xmlRdr.Read())
+            {
                 switch (xmlRdr.NodeType)
                 {
                     case XmlNodeType.Attribute:
@@ -125,8 +136,8 @@ namespace Bara.Test
                         {
 
                             var result = xmlRdr.Read();
-                                
-                                break;
+
+                            break;
                         }
                     case XmlNodeType.EndElement:
                         break;
