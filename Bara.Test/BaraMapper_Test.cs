@@ -27,7 +27,7 @@ namespace Bara.Test
             {
                 Scope = "T_Test",
                 SqlId = "Insert",
-                Request = new { Id = 3, Name = "Rocher3" }
+                Request = new { Id = 4, Name = "Rocher4" }
             });
 
             Assert.IsType<BaraMapper>(mapper);

@@ -6,8 +6,8 @@
   <Database>
     <DbProvider Name="SqlClientFactory" ParameterPrefix="@" Type="System.Data.SqlClient.SqlClientFactory,System.Data.SqlClient"/>
     <Write Name="WriteDB" ConnectionString="Data Source=.;database=GoodJob;uid=sa;pwd=App1234"/>
-    <Read Name="ReadDB-0" ConnectionString="Data Source=.;database=GoodJob;uid=sa;pwd=App1234" Weight="80"/>
-    <Read Name="ReadDB-1" ConnectionString="Data Source=.;database=GoodJob;uid=sa;pwd=App1234" Weight="20"/>
+    <Read Name="ReadDB-0" ConnectionString="Data Source=.;database=GoodJob;uid=sa;pwd=App1234" Weight="50"/>
+    <Read Name="ReadDB-1" ConnectionString="Data Source=.;database=GoodJob;uid=sa;pwd=App1234" Weight="50"/>
   </Database>
   <BaraMaps>
     <BaraMap Path="Maps/T_Test.xml"></BaraMap>

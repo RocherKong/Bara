@@ -54,7 +54,7 @@ namespace Bara.Model
                                 }
                                 if (refId == statement.Id)
                                 {
-                                    throw new BaraException($"Statement can't load self,try another Id");
+                                    throw new BaraException($"Statement which Id :{refId} can't load self,try another Id");
                                 }
                                 statement.SqlTags.Add(new Include
                                 {
