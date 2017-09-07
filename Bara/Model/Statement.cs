@@ -18,6 +18,8 @@ namespace Bara.Model
         public String FullSqlId => $"{BaraMap.Scope}.{Id}";
         public List<ITag> SqlTags { get; set; }
 
+        public Cache Cache { get; set; }
+
         [XmlIgnore]
         public BaraMap BaraMap { get; private set; }
 
@@ -29,6 +31,12 @@ namespace Bara.Model
                 SqlTags = new List<ITag> { },
                 BaraMap = baraMap
             };
+
+            var CacheId = xele.Attribute("Cache")?.Value;
+            if (!String.IsNullOrEmpty(CacheId)) {
+                var _cache = baraMap.Caches.FirstOrDefault(m=>m.Id==CacheId);
+                statement.Cache = _cache;
+            }
 
             IEnumerable<XNode> childNodes = xele.Nodes();
             foreach (var node in childNodes)

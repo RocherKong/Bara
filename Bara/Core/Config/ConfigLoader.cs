@@ -35,7 +35,7 @@ namespace Bara.Core.Config
                 {
                     BaraMapConfig = baraMapConfig,
                     Path = configStream.Path,
-                    Caches=new List<Cache> { },
+                    Caches=new List<Model.Cache> { },
                     Statements = new List<Statement> { },
                 };
 
