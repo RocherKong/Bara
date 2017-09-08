@@ -13,7 +13,7 @@ namespace Bara.Core.Cache
         {
             _ht = Hashtable.Synchronized(new Hashtable());
         }
-        public object this[string key, Type type]
+        public object this[CacheKey key, Type type]
         {
             get { return _ht[key]; }
             set { _ht[key] = type; }
@@ -24,12 +24,12 @@ namespace Bara.Core.Cache
             _ht.Clear();
         }
 
-        public void Initliaze(IDictionary<string, string> dictionary)
+        public void Initliaze(IDictionary<CacheKey, string> dictionary)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(string key)
+        public bool Remove(CacheKey key)
         {
             _ht.Remove(key);
             return true;

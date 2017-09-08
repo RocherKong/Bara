@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bara.Core.Cache;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,11 +7,11 @@ namespace Bara.Abstract.Cache
 {
     public interface ICacheProvider
     {
-        void Initliaze(IDictionary<String, String> dictionary);
+        void Initliaze(IDictionary<CacheKey, String> dictionary);
 
-        bool Remove(String key);
+        bool Remove(CacheKey key);
 
-        object this[String key, Type type]
+        object this[CacheKey key, Type type]
         {
             get;
             set;
