@@ -16,6 +16,7 @@ namespace Bara.Core.Cache
         public LruCacheProvider()
         {
             _ht = Hashtable.Synchronized(new Hashtable());
+            _keyList = ArrayList.Synchronized(new ArrayList());
         }
         public object this[CacheKey key, Type type]
         {
