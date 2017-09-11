@@ -15,6 +15,7 @@ namespace Bara.Core.Cache
         private IList _keyList = null;
         public LruCacheProvider()
         {
+            _cacheSize = 100;
             _ht = Hashtable.Synchronized(new Hashtable());
             _keyList = ArrayList.Synchronized(new ArrayList());
         }
