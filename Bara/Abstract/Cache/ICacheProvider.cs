@@ -1,13 +1,13 @@
 ﻿using Bara.Core.Cache;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 
 namespace Bara.Abstract.Cache
 {
     public interface ICacheProvider
     {
-        void Initliaze(IDictionary<CacheKey, String> dictionary);
+        void Initliaze(IDictionary dictionary);
 
         bool Remove(CacheKey key);
 

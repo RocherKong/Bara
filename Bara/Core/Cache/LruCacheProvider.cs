@@ -8,15 +8,34 @@ namespace Bara.Core.Cache
 {
     public class LruCacheProvider : ICacheProvider
     {
-        public Hashtable _ht;
+        private int _cacheSize = 0;
+
+        private Hashtable _ht = null;
+
+        private IList _keyList = null;
         public LruCacheProvider()
         {
             _ht = Hashtable.Synchronized(new Hashtable());
         }
         public object this[CacheKey key, Type type]
         {
-            get { return _ht[key]; }
-            set { _ht[key] = type; }
+            get
+            {
+                _keyList.Remove(key);
+                _keyList.Add(key);
+                return _ht[key];
+            }
+            set
+            {
+                _ht[key] = value;
+                _keyList.Add(key);
+                if (_keyList.Count > _cacheSize)
+                {
+                    object _key = _keyList[0];
+                    _keyList.RemoveAt(0);
+                    _ht.Remove(_key);
+                }
+            }
         }
 
         public void Flush()
@@ -24,9 +43,13 @@ namespace Bara.Core.Cache
             _ht.Clear();
         }
 
-        public void Initliaze(IDictionary<CacheKey, string> dictionary)
+        public void Initliaze(IDictionary dictionary)
         {
-            throw new NotImplementedException();
+            string size = dictionary["CacheSize"].ToString();
+            if (size != null)
+            {
+                _cacheSize = Convert.ToInt32(size);
+            }
         }
 
         public bool Remove(CacheKey key)
