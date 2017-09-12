@@ -22,6 +22,11 @@ namespace Bara.Core.Cache
         public IBaraMapper BaraMapper { get; set; }
         public Queue<RequestContext> RequestQueue { get; set; }
 
+        public void Enqueue(RequestContext context)
+        {
+            RequestQueue.Enqueue(context);
+        }
+
         public void ClearQueue()
         {
             throw new NotImplementedException();
@@ -29,7 +34,16 @@ namespace Bara.Core.Cache
 
         public void FlushQueue()
         {
-            throw new NotImplementedException();
+            while (RequestQueue.Count > 0)
+            {
+                Flush(RequestQueue.Dequeue());
+            }
+        }
+
+        private void Flush(RequestContext context)
+        {
+            String FullSqlId = context.FullSqlId;
+
         }
 
         public void ResetMappedCaches()
