@@ -6,6 +6,7 @@ using Bara.Abstract.Core;
 using Bara.Core.Context;
 using Microsoft.Extensions.Logging;
 using Bara.Model;
+using Bara.Exceptions;
 
 namespace Bara.Core.Cache
 {
@@ -19,7 +20,10 @@ namespace Bara.Core.Cache
             this.BaraMapper = baraMapper;
             RequestQueue = new Queue<RequestContext>();
             MappedLastFlushTimes = new Dictionary<String, DateTime>();
+            MappedStatements = BaraMapper.BaraMapConfig.MappedStatements;
         }
+
+        public IDictionary<String, Statement> MappedStatements { get; }
 
         public IDictionary<String, DateTime> MappedLastFlushTimes { get; }
 
@@ -70,7 +74,50 @@ namespace Bara.Core.Cache
             }
         }
 
-        public object this[RequestContext context, Type type] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public object this[RequestContext context, Type type]
+        {
+            get
+            {
+                string fullSqlId = context.FullSqlId;
+                if (!MappedStatements.ContainsKey(fullSqlId))
+                {
+                    throw new BaraException($"CacheManager can't Load Statement which FullSqlId is {fullSqlId},Please Check!");
+                }
+                var statement = MappedStatements[fullSqlId];
+                if (statement.Cache == null)
+                {
+                    return null;
+                }
+                lock (syncobj)
+                {
+                    FlushByInterval(statement);
+                }
+                var cacheKey = new CacheKey(context);
+                var cache = statement.CacheProvider[cacheKey, type];
+                _logger.LogDebug($"CacheManager GetCache From FullSqlId ${fullSqlId},Success:{cache != null}");
+                return cache;
+            }
+            set
+            {
+                string fullSqlId = context.FullSqlId;
+                if (!MappedStatements.ContainsKey(fullSqlId))
+                {
+                    throw new BaraException($"CacheManager can't Load Statement which FullSqlId is {fullSqlId},Please Check!");
+                }
+                var statement = MappedStatements[fullSqlId];
+                if (statement.Cache == null)
+                {
+                    return;
+                }
+                lock (syncobj)
+                {
+                    FlushByInterval(statement);
+                }
+                var cacheKey = new CacheKey(context);
+                _logger.LogDebug($"CacheManager SetCache FullSqlId:{fullSqlId}");
+                statement.CacheProvider[cacheKey, type] = value;
+            }
+        }
 
         public IBaraMapper BaraMapper { get; set; }
         public Queue<RequestContext> RequestQueue { get; set; }
@@ -82,7 +129,7 @@ namespace Bara.Core.Cache
 
         public void ClearQueue()
         {
-            throw new NotImplementedException();
+            RequestQueue.Clear();
         }
 
         public void FlushQueue()
@@ -150,7 +197,8 @@ namespace Bara.Core.Cache
             }
         }
 
-        public void Flush(Statement statement, TimeSpan timeSpan) {
+        public void Flush(Statement statement, TimeSpan timeSpan)
+        {
             MappedLastFlushTimes[statement.FullSqlId] = DateTime.Now;
             statement.CacheProvider.Flush();
         }
