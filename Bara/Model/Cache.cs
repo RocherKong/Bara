@@ -1,6 +1,9 @@
-﻿using Bara.Exceptions;
+﻿using Bara.Abstract.Cache;
+using Bara.Core.Cache;
+using Bara.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -84,6 +87,10 @@ namespace Bara.Model
 
         public String Type { get; set; }
 
+        public String AssemblyName { get { return Type.Split(',')[1]; } }
+
+        public String TypeName { get { return Type.Split(',')[0]; } }
+
         public IDictionary<String, String> Parameters { get; set; }
 
         public class Parameter
@@ -111,6 +118,30 @@ namespace Bara.Model
         public class CacheFlushOnExecute
         {
             public String Statement { get; set; }
+        }
+
+        public ICacheProvider CreateCacheProvider(Statement statement)
+        {
+            ICacheProvider cacheProvider = null;
+            Parameters["Prefix"] = statement.FullSqlId;
+            switch (Type)
+            {
+                case "Lru":
+                    {
+                        cacheProvider = new LruCacheProvider();
+                        break;
+                    }
+                default:
+                    {
+                        var assemblyName = new AssemblyName { Name = AssemblyName };
+                        Type _cacheProviderType = Assembly.Load(assemblyName).GetType(TypeName);
+                        cacheProvider = Activator.CreateInstance(_cacheProviderType) as ICacheProvider;
+                        break;
+                    }
+            }
+
+            return cacheProvider;
+
         }
     }
 }

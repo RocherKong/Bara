@@ -8,6 +8,8 @@ using System.Linq;
 using Bara.Exceptions;
 using Bara.Core.Context;
 using Bara.Core.Tags;
+using Bara.Abstract.Cache;
+using Bara.Core.Cache;
 
 namespace Bara.Model
 {
@@ -19,6 +21,35 @@ namespace Bara.Model
         public List<ITag> SqlTags { get; set; }
 
         public Cache Cache { get; set; }
+
+        private ICacheProvider _cacheProvider;
+
+        private static readonly object syncObj = new object();
+        public ICacheProvider CacheProvider
+        {
+            get
+            {
+                if (_cacheProvider == null)
+                {
+                    lock (syncObj)
+                    {
+                        if (_cacheProvider == null)
+                        {
+                            if (Cache == null)
+                            {
+                                _cacheProvider = new NoneCacheProvider();
+                            }
+                            else
+                            {
+                                _cacheProvider = Cache.CreateCacheProvider(this);
+                            }
+                        }
+                    }
+                }
+                return _cacheProvider;
+            }
+        }
+
 
         [XmlIgnore]
         public BaraMap BaraMap { get; private set; }
@@ -33,8 +64,9 @@ namespace Bara.Model
             };
 
             var CacheId = xele.Attribute("Cache")?.Value;
-            if (!String.IsNullOrEmpty(CacheId)) {
-                var _cache = baraMap.Caches.FirstOrDefault(m=>m.Id==CacheId);
+            if (!String.IsNullOrEmpty(CacheId))
+            {
+                var _cache = baraMap.Caches.FirstOrDefault(m => m.Id == CacheId);
                 statement.Cache = _cache;
             }
 

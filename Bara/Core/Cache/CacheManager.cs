@@ -152,7 +152,7 @@ namespace Bara.Core.Cache
 
         public void Flush(Statement statement, TimeSpan timeSpan) {
             MappedLastFlushTimes[statement.FullSqlId] = DateTime.Now;
-            //statement.CacheProvider.Flush() next step is complete cacheProvider rel statement
+            statement.CacheProvider.Flush();
         }
     }
 }
