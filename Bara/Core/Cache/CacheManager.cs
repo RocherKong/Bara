@@ -18,7 +18,10 @@ namespace Bara.Core.Cache
             this._logger = loggerFactory.CreateLogger<CacheManager>();
             this.BaraMapper = baraMapper;
             RequestQueue = new Queue<RequestContext>();
+            MappedLastFlushTimes = new Dictionary<String, DateTime>();
         }
+
+        public IDictionary<String, DateTime> MappedLastFlushTimes { get; }
 
         private IDictionary<String, IList<Statement>> _mappedTriggerFlushs;
         public IDictionary<String, IList<Statement>> MappedTriggerFlushs
@@ -93,17 +96,63 @@ namespace Bara.Core.Cache
         private void Flush(RequestContext context)
         {
             String FullSqlId = context.FullSqlId;
-
+            if (MappedTriggerFlushs.ContainsKey(FullSqlId))
+            {
+                lock (syncobj)
+                {
+                    IList<Statement> triggerStatements = MappedTriggerFlushs[FullSqlId];
+                    foreach (var statement in triggerStatements)
+                    {
+                        MappedLastFlushTimes[statement.FullSqlId] = DateTime.Now;
+                    }
+                }
+            }
         }
 
         public void ResetMappedCaches()
         {
-            throw new NotImplementedException();
+            lock (syncobj)
+            {
+                _mappedTriggerFlushs = null;
+            }
         }
 
         public void TriggerFlush(RequestContext context)
         {
-            throw new NotImplementedException();
+            var session = BaraMapper.SessionStore.LocalSession;
+            if (session != null && session.DbTransaction != null)
+            {
+                Enqueue(context);
+            }
+            else
+            {
+                Flush(context);
+            }
+        }
+
+        public void FlushByInterval(Statement statement)
+        {
+            if (statement.Cache.FlushInterval.Interval.Ticks == 0) { return; }
+            String FullSqlId = statement.FullSqlId;
+            DateTime LastFlushTime = DateTime.Now;
+            if (!MappedLastFlushTimes.ContainsKey(FullSqlId))
+            {
+                MappedLastFlushTimes[FullSqlId] = LastFlushTime;
+            }
+            else
+            {
+                LastFlushTime = MappedLastFlushTimes[FullSqlId];
+            }
+            var lastInterval = DateTime.Now - LastFlushTime;
+            if (lastInterval >= statement.Cache.FlushInterval.Interval)
+            {
+                Flush(statement, lastInterval);
+            }
+        }
+
+        public void Flush(Statement statement, TimeSpan timeSpan) {
+            MappedLastFlushTimes[statement.FullSqlId] = DateTime.Now;
+            //statement.CacheProvider.Flush() next step is complete cacheProvider rel statement
         }
     }
 }
