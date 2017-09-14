@@ -84,7 +84,7 @@
       <!--Order By T.Id Desc-->
     </Statement>
     <!--获取分页数据-->
-    <Statement Id="GetListByPage">
+    <Statement Id="GetListByPage" >
       Select TT.* From
       (Select ROW_NUMBER() Over(Order By T.Id Desc) Row_Index,T.* From T_Test T With(NoLock)
       <Include RefId="QueryParams"/>) TT
@@ -99,7 +99,7 @@
     </Statement>
 
     <!--获取表映射实体-->
-    <Statement Id="GetEntity">
+    <Statement Id="GetEntity" Cache="Lru">
       Select Top 1 T.* From T_Test T With(NoLock)
       Where 1=1
       <IsNotEmpty Prepend="And" Property="Id">
