@@ -19,6 +19,8 @@ using Bara.Core.Executor;
 using Bara.Core.Context;
 using Dapper;
 using System.Threading.Tasks;
+using Bara.Abstract.Cache;
+using Bara.Core.Cache;
 
 namespace Bara.Core.Mapper
 {
@@ -40,6 +42,7 @@ namespace Bara.Core.Mapper
 
         public BaraMapConfig BaraMapConfig { get; private set; }
 
+        public ICacheManager CacheManager { get; }
         public BaraMapper(String baraMapConfigFilePath = "BaraMapConfig.xml") : this(NullLoggerFactory.Instance, baraMapConfigFilePath)
         {
 
@@ -55,6 +58,7 @@ namespace Bara.Core.Mapper
             SessionStore = new DbConnectionSessionStore(loggerFactory, this.GetHashCode().ToString());
             SqlBuilder = new SqlBuilder(loggerFactory, this);
             DataSourceManager = new DataSourceManager(loggerFactory, this);
+            CacheManager = new CacheManager(loggerFactory, this);
             SqlExecutor = new SqlExecutor(loggerFactory, SqlBuilder, this);
         }
 
@@ -98,17 +102,33 @@ namespace Bara.Core.Mapper
             return result;
         }
 
-        public T QuerySingle<T>(RequestContext context,DataSourceType dataSourceType=DataSourceType.Read)
+        public T QuerySingle<T>(RequestContext context, DataSourceType dataSourceType = DataSourceType.Read)
         {
+            #region Read Cache
+            var cache = CacheManager[context, typeof(T)];
+            if (cache != null)
+            {
+                return (T)cache;
+            }
+            #endregion
             T result = SqlExecutor.Execute<T>(context, dataSourceType, (sqlStr, session) =>
             {
                 return session.Connection.QuerySingleOrDefault<T>(sqlStr, context.Request, session.DbTransaction);
             });
+            CacheManager[context, typeof(T)] = result;
             return result;
         }
 
         public IEnumerable<T> Query<T>(RequestContext context, DataSourceType sourceType = DataSourceType.Read)
         {
+            #region Read Cache
+            var cache = CacheManager[context, typeof(IEnumerable<T>)];
+            if (cache != null)
+            {
+                return (IEnumerable<T>)cache;
+            }
+            #endregion
+
             IDbConnectionSession session = SessionStore.LocalSession;
             if (session == null)
             {
@@ -118,6 +138,7 @@ namespace Bara.Core.Mapper
             try
             {
                 var result = session.Connection.Query<T>(sqlStr, context.Request, session.DbTransaction);
+                CacheManager[context, typeof(IEnumerable<T>)] = result;
                 return result;
             }
             catch (Exception ex)
@@ -146,24 +167,39 @@ namespace Bara.Core.Mapper
 
         public async Task<T> ExecuteScalarAsync<T>(RequestContext context)
         {
-            T result =await SqlExecutor.ExecuteAsync<T>(context, DataSourceType.Read, (sqlStr, session) =>
+            #region Read Cache
+            var cache = CacheManager[context, typeof(T)];
+            if (cache != null)
             {
-                return session.Connection.ExecuteScalarAsync<T>(sqlStr, context.Request, session.DbTransaction);
-            });
+                return (T)cache;
+            }
+            #endregion
+            T result = await SqlExecutor.ExecuteAsync<T>(context, DataSourceType.Read, (sqlStr, session) =>
+             {
+                 return session.Connection.ExecuteScalarAsync<T>(sqlStr, context.Request, session.DbTransaction);
+             });
+            CacheManager[context, typeof(T)] = result;
             return result;
         }
 
         public async Task<T> QuerySingleAsync<T>(RequestContext context, DataSourceType dataSourceType = DataSourceType.Read)
         {
-            T result =await SqlExecutor.ExecuteAsync<T>(context, dataSourceType, (sqlStr, session) =>
-            {
-                return session.Connection.QuerySingleOrDefaultAsync<T>(sqlStr, context.Request, session.DbTransaction);
-            });
+            T result = await SqlExecutor.ExecuteAsync<T>(context, dataSourceType, (sqlStr, session) =>
+             {
+                 return session.Connection.QuerySingleOrDefaultAsync<T>(sqlStr, context.Request, session.DbTransaction);
+             });
             return result;
         }
 
         public async Task<IEnumerable<T>> QueryAsync<T>(RequestContext context, DataSourceType sourceType = DataSourceType.Read)
         {
+            #region Read Cache
+            var cache = CacheManager[context, typeof(IEnumerable<T>)];
+            if (cache != null)
+            {
+                return (IEnumerable<T>)cache;
+            }
+            #endregion
             IDbConnectionSession session = SessionStore.LocalSession;
             if (session == null)
             {
@@ -172,7 +208,8 @@ namespace Bara.Core.Mapper
             string sqlStr = SqlBuilder.BuildSql(context);
             try
             {
-                var result =await session.Connection.QueryAsync<T>(sqlStr, context.Request, session.DbTransaction);
+                var result = await session.Connection.QueryAsync<T>(sqlStr, context.Request, session.DbTransaction);
+                CacheManager[context, typeof(IEnumerable<T>)] = result;
                 return result;
             }
             catch (Exception ex)

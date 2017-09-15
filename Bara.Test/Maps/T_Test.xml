@@ -31,7 +31,7 @@
           T.Name=@Name
         </IsNotEmpty>
       </IsNotEmpty>
-      <Switch Prepend="And" Property="Status">
+      <!--<Switch Prepend="And" Property="Status">
         <Case CompareValue="1">
           Id Desc
         </Case>
@@ -41,7 +41,7 @@
         <Case CompareValue="3">
           Name Desc
         </Case>
-      </Switch>
+      </Switch>-->
     </Statement>
     <!--新增-->
     <Statement Id="Insert">
@@ -68,7 +68,7 @@
     </Statement>
 
     <!--获取数据列-->
-    <Statement Id="GetList">
+    <Statement Id="GetList" Cache="T_Test.LruCache">
       SELECT Top 10 T.* From T_Test T With(NoLock)
       <Include RefId="QueryParams"/>
       <!--Order By T.Id Desc-->
@@ -99,7 +99,7 @@
     </Statement>
 
     <!--获取表映射实体-->
-    <Statement Id="GetEntity" Cache="Lru">
+    <Statement Id="GetEntity" >
       Select Top 1 T.* From T_Test T With(NoLock)
       Where 1=1
       <IsNotEmpty Prepend="And" Property="Id">

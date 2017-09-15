@@ -45,5 +45,18 @@ namespace Bara.Test
 
 
         }
+
+        [Fact]
+        public void QueryList_Test()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                mapper.Query<T_Test>(new Core.Context.RequestContext
+                {
+                    SqlId="GetList",
+                    Scope="T_Test",
+                });
+            }
+        }
     }
 }
