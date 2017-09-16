@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaraMap Scope="T_Test" xmlns="http://bara.github.io/schemas/BaraMap.xsd">
+<BaraMap Scope="T_Test" xmlns="https://github.com/RocherKong/Bara/schemas/BaraMap.xsd">
   <Caches>
     <Cache Id="T_Test.RedisCache" Type="Bara.Cache.Redis.RedisCacheProvider,Bara.Cache.Redis">
       <Parameter Key="CacheSize" Value="1000"/>

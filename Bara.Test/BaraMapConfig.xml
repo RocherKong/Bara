@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaraMapConfig xmlns="http://bara.github.io/schemas/BaraConfig.xsd">
+<BaraMapConfig xmlns="https://github.com/RocherKong/Bara/schemas/BaraConfig.xsd">
   <Settings
     IsWatchConfigFile="true"
   />
