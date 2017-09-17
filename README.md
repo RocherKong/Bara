@@ -3,4 +3,13 @@
 just for .net
 
 
-Next Step is Statement 
+Next Step 
+
+1.MapperContainer
+2.add SqlMap directiry configuration
+3.redis cache
+4.zookeeper(options)
+5.add Doc 
+6.Release
+
+
