@@ -14,7 +14,6 @@ namespace Bara.Common
             {
                 filePath = Path.Combine(AppContext.BaseDirectory, filePath);
             }
-
             return new FileInfo(filePath);
         }
 
