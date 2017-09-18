@@ -62,6 +62,18 @@ namespace Bara.Core.Mapper
             SqlExecutor = new SqlExecutor(loggerFactory, SqlBuilder, this);
         }
 
+        public BaraMapper(String baraMapConfigFilePath,IConfigLoader configLoader)
+        {
+            ConfigLoader = configLoader;
+            ConfigLoader.Load(baraMapConfigFilePath, this);
+            DbProviderFactory = BaraMapConfig.DataBase.DbProvider.DbProviderFactory;
+            SessionStore = new DbConnectionSessionStore(this.GetHashCode().ToString());
+            SqlBuilder = new SqlBuilder(this);
+            DataSourceManager = new DataSourceManager(this);
+            CacheManager = new CacheManager(this);
+            SqlExecutor = new SqlExecutor(SqlBuilder, this);
+        }
+
         public void LoadConfig(BaraMapConfig config)
         {
             BaraMapConfig = config;

@@ -26,6 +26,11 @@ namespace Bara.Core.DataSource
             this.BaraMapper = baraMapper;
         }
 
+        public DataSourceManager(IBaraMapper baraMapper)
+        {
+            this.BaraMapper = baraMapper;
+        }
+
         public IDataSource GetDataSource(DataSourceType type)
         {
             var ReadDataSources = BaraMapper.BaraMapConfig.DataBase.ReadDataSources;

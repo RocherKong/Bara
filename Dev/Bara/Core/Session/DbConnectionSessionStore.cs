@@ -21,6 +21,11 @@ namespace Bara.Core.Session
             SessionName = SessionPrefix + BaraMapperHashCode;
         }
 
+        public DbConnectionSessionStore(String baraMapperId)
+        {
+            SessionName = SessionPrefix + baraMapperId;
+        }
+
         public IDbConnectionSession LocalSession
         {
             get

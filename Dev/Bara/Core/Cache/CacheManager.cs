@@ -23,6 +23,14 @@ namespace Bara.Core.Cache
             MappedStatements = BaraMapper.BaraMapConfig.MappedStatements;
         }
 
+        public CacheManager(IBaraMapper baraMapper)
+        {
+            this.BaraMapper = baraMapper;
+            RequestQueue = new Queue<RequestContext>();
+            MappedLastFlushTimes = new Dictionary<String, DateTime>();
+            MappedStatements = BaraMapper.BaraMapConfig.MappedStatements;
+        }
+
         public IDictionary<String, Statement> MappedStatements { get; }
 
         public IDictionary<String, DateTime> MappedLastFlushTimes { get; }

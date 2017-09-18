@@ -22,6 +22,11 @@ namespace Bara.Core.Builder
             this._baraMapper = baraMapper;
         }
 
+        public SqlBuilder(IBaraMapper baraMapper)
+        {
+            this._baraMapper = baraMapper;
+        }
+
         public String BuildSql(RequestContext context)
         {
             if (!MappedStatements.ContainsKey(context.FullSqlId)) {

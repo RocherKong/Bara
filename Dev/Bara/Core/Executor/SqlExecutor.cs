@@ -23,6 +23,12 @@ namespace Bara.Core.Executor
             _sqlBuilder = sqlBuilder;
             _baraMapper = baraMapper;
         }
+
+        public SqlExecutor(ISqlBuilder sqlBuilder, IBaraMapper baraMapper)
+        {
+            _sqlBuilder = sqlBuilder;
+            _baraMapper = baraMapper;
+        }
         public T Execute<T>(RequestContext context, DataSourceType dataSourceType, Func<string, IDbConnectionSession, T> executeSql)
         {
             IDbConnectionSession session = _baraMapper.SessionStore.LocalSession;
