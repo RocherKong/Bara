@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="https://github.com/RocherKong/Bara/schemas/BaraMap.xsd" 
+<xs:schema 
+attributeFormDefault="unqualified" 
+elementFormDefault="qualified" 
+targetNamespace="https://github.com/RocherKong/Bara/schemas/BaraMap.xsd" 
     xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns="http://github.com/RocherKong/Bara/schemas/BaraMap.xsd" 
-    xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" vs:friendlyname="BaraMap Configuration Schema" vs:ishtmlschema="false" vs:iscasesensitive="true" vs:requireattributequotes="true" vs:defaultnamespacequalifier="" vs:defaultnsprefix="">
+    xmlns="https://github.com/RocherKong/Bara/schemas/BaraMap.xsd" 
+    xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" 
+    vs:friendlyname="BaraMap Configuration Schema" 
+    vs:ishtmlschema="false" 
+    vs:iscasesensitive="true" 
+    vs:requireattributequotes="true" 
+    vs:defaultnamespacequalifier=""
+     vs:defaultnsprefix=""
+    >
     <xs:element name="Cache">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
-                <xs:element maxOccurs="unbounded" name="Parameter">
+                <xs:element name="Parameter">
                     <xs:complexType>
                         <xs:attribute name="Key" type="xs:string" use="required" />
                         <xs:attribute name="Value" type="xs:string" use="required" />
@@ -14,25 +24,26 @@
                 </xs:element>
                 <xs:element name="FlushInterval" maxOccurs="1">
                     <xs:complexType>
-                        <xs:attribute name="Hours" type="xs:unsignedByte" use="required" />
-                        <xs:attribute name="Minutes" type="xs:unsignedByte" use="required" />
-                        <xs:attribute name="Seconds" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="Hours" type="xs:unsignedByte" use="optional" />
+                        <xs:attribute name="Minutes" type="xs:unsignedByte" use="optional" />
+                        <xs:attribute name="Seconds" type="xs:unsignedByte" use="optional" />
                     </xs:complexType>
                 </xs:element>
-                <xs:element maxOccurs="unbounded" name="FlushOnExecute">
+                <xs:element name="FlushOnExecute">
                     <xs:complexType>
                         <xs:attribute name="Statement" type="xs:string" use="required" />
                     </xs:complexType>
                 </xs:element>
-            </xs:sequence>
+            </xs:choice>
             <xs:attribute name="Id" type="xs:string" use="required" />
             <xs:attribute name="Type" use="required">
                 <xs:simpleType>
                     <xs:restriction base="xs:NMTOKEN">
                         <xs:enumeration value="Lru"/>
+                            <xs:enumeration value="Fifo"/>
                     </xs:restriction>
                 </xs:simpleType>
-            </xs.attribute>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     <xs:element name="Caches">
@@ -476,8 +487,8 @@
     <xs:element name="BaraMap">
         <xs:complexType mixed="true">
             <xs:all>
-                <xs:element name="Caches" minOccurs="0" maxOccurs="1"/>
-                <xs:element name="Statements" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="Caches" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="Statements" minOccurs="0" maxOccurs="1"/>
             </xs:all>
             <xs:attribute name="Scope" type="xs:string" use="required" />
         </xs:complexType>
