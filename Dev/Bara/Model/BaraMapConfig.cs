@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Bara.Model
 {
-    [XmlRoot(Namespace = "http://bara.github.io/schemas/BaraConfig.xsd")]
+    [XmlRoot(Namespace = "https://github.com/RocherKong/Bara/schemas/BaraMapConfig.xsd")]
     public class BaraMapConfig
     {
         [XmlElement("Settings")]
@@ -126,16 +126,15 @@ namespace Bara.Model
 
     }
 
-    public class WriteDataBase:IWriteDataSource
+    public class WriteDataBase : IWriteDataSource
     {
         [XmlAttribute]
         public string Name { get; set; }
         [XmlAttribute]
         public string ConnectionString { get; set; }
-
     }
 
-    public class ReadDataSource:IReadDataSource
+    public class ReadDataSource : IReadDataSource
     {
         [XmlAttribute]
         public string Name { get; set; }
@@ -149,6 +148,14 @@ namespace Bara.Model
     {
         [XmlAttribute]
         public String Path { get; set; }
+        [XmlAttribute]
+        public ResourceType Type { get; set; } = ResourceType.File;
+
+        public enum ResourceType
+        {
+            File = 1,
+            Directory = 2
+        }
     }
 
 

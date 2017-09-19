@@ -1,6 +1,7 @@
 ﻿using Bara.Abstract.Config;
 using Bara.Abstract.Core;
 using Bara.Core.Config;
+using Bara.Exceptions;
 using Bara.Model;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,7 +34,21 @@ namespace Bara.Common
             var Config = LoadConfig(configStream, baraMapper);
             foreach (var baraMapSource in Config.BaraMapSources)
             {
-                LoadBaraMap(baraMapSource.Path, Config);
+                if (baraMapSource.Type == BaraMapSource.ResourceType.File)
+                {
+                    LoadBaraMap(baraMapSource.Path, Config);
+                }
+                else if (baraMapSource.Type == BaraMapSource.ResourceType.Directory)
+                {
+                    var files = Directory.EnumerateFiles(baraMapSource.Path, "*.xml");
+                    foreach (var file in files)
+                    {
+                        LoadBaraMap(file, Config);
+                    }
+                }
+                else {
+                    throw new BaraException("Cant't Load Unknown Type:" + baraMapSource.Type);
+                }
             }
             baraMapper.LoadConfig(Config);
             if (Config.Settings.IsWatchConfigFile)

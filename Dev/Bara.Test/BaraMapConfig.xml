@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BaraMapConfig xmlns="https://github.com/RocherKong/Bara/schemas/BaraConfig.xsd">
+<BaraMapConfig xmlns="https://github.com/RocherKong/Bara/schemas/BaraMapConfig.xsd">
   <Settings
     IsWatchConfigFile="true"
   />
@@ -10,6 +10,6 @@
     <Read Name="ReadDB-1" ConnectionString="Data Source=.;database=GoodJob;uid=sa;pwd=App1234" Weight="50"/>
   </Database>
   <BaraMaps>
-    <BaraMap Path="Maps/T_Test.xml"></BaraMap>
+    <BaraMap Path="Maps/" Type="Directory"></BaraMap>
   </BaraMaps>
 </BaraMapConfig>
