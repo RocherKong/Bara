@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara", "Bara\Bara.csproj", "{5FF9B9B6-2255-4C0A-A976-F48546888318}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{EC636DEB-DDA5-4B32-9D98-8F6D624B0D19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bara.Test", "Bara.Test\Bara.Test.csproj", "{669083A8-23B7-4AA3-99C0-837D7211BB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara.Test", "Bara.Test\Bara.Test.csproj", "{669083A8-23B7-4AA3-99C0-837D7211BB7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bara.DataAccess", "Bara.DataAccess\Bara.DataAccess.csproj", "{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,11 +25,18 @@ Global
 		{669083A8-23B7-4AA3-99C0-837D7211BB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{669083A8-23B7-4AA3-99C0-837D7211BB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{669083A8-23B7-4AA3-99C0-837D7211BB7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{669083A8-23B7-4AA3-99C0-837D7211BB7B} = {EC636DEB-DDA5-4B32-9D98-8F6D624B0D19}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAD03700-F379-456C-A9D6-334B9F83EA13}
 	EndGlobalSection
 EndGlobal
