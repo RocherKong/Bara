@@ -78,8 +78,7 @@ namespace Bara.Model
                 if (node.NodeType == System.Xml.XmlNodeType.Element)
                 {
                     XElement elenode = node as XElement;
-                    var prepend = elenode.Attribute("Prepend")?.Value;
-                    var property = elenode.Attribute("Property")?.Value;
+                 
                     tagName = elenode.Name.LocalName;
 
                     switch (tagName)

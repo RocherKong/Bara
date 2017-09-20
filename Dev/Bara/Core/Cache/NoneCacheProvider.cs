@@ -8,21 +8,21 @@ namespace Bara.Core.Cache
 {
     public class NoneCacheProvider : ICacheProvider
     {
-        public object this[CacheKey key, Type type] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public object this[CacheKey key, Type type] { get { return null; } set => throw new NotImplementedException(); }
 
         public void Flush()
         {
-           // throw new NotImplementedException();
+            return;
         }
 
         public void Initliaze(IDictionary dictionary)
         {
-          //  throw new NotImplementedException();
+            return;
         }
 
         public bool Remove(CacheKey key)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

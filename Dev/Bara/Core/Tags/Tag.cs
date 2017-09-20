@@ -60,7 +60,6 @@ namespace Bara.Core.Tags
                         var _strSql = child.BuildSql(context, parameterPrefix);
                         sb.Append(_strSql);
                     }
-                    //  return sb.ToString();
                 }
                 return $"{Prepend}{sb.ToString()}";
             }

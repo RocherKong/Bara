@@ -15,9 +15,9 @@ namespace Bara.Core.Tags
             var reqVal = objParam.GetValue(Property);
             bool isNeedShow = false;
             if (reqVal == null) return false;
-            if (!Decimal.TryParse(reqVal.ToString(), out decimal reqValue)) { return false; };
-            if (!Decimal.TryParse(CompareValue.ToString(), out decimal compareValue)) { return false; };
-            if (reqValue >= compareValue) { return true; };
+            if (!Decimal.TryParse(reqVal.ToString(), out decimal reqValue)) { return false; }
+            if (!Decimal.TryParse(CompareValue.ToString(), out decimal compareValue)) { return false; }
+            if (reqValue >= compareValue) { return true; }
             return isNeedShow;
 
         }
