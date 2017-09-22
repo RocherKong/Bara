@@ -5,9 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
     <Folder Include="Impl\" />
     <Folder Include="Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bara\Bara.csproj" />
   </ItemGroup>
 
 </Project>
