@@ -15,11 +15,9 @@ build:
 before_package:
 - cmd: >-
     dotnet build Bara -c %CONFIGURATION%
-    dotnet build Bara.DataAccess -c %CONFIGURATION%
 after_build:
 - cmd: >-
     dotnet pack Bara -c %CONFIGURATION%
-    dotnet pack Bara.DataAccess -c %CONFIGURATION%
 test: off
 artifacts:
 - path: 'Bara\bin\Release\Bara.*.nupkg'
