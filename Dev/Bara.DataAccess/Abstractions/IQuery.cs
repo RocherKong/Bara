@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bara.DataAccess.Abstractions
 {
-    public interface IQuery<TEntity> : IExist, IGetEntity<TEntity>, IGetList, IGetListByPage, IGetRecord
+    public interface IQuery<TEntity> : IExist, IGetEntity<TEntity>, IQueryList, IQueryListByPage, IGetRecord
          where TEntity : class
     {
     }
@@ -21,16 +21,16 @@ namespace Bara.DataAccess.Abstractions
     /// <summary>
     /// 获取列表
     /// </summary>
-    public interface IGetList
+    public interface IQueryList
     {
-        IEnumerable<TResponse> GetList<TResponse>(object paramObj, DataSourceType sourceType = DataSourceType.Read);
+        IEnumerable<TResponse> QueryList<TResponse>(object paramObj, DataSourceType sourceType = DataSourceType.Read);
     }
     /// <summary>
     /// 分页
     /// </summary>
-    public interface IGetListByPage
+    public interface IQueryListByPage
     {
-        IEnumerable<TResponse> GetListByPage<TResponse>(object paramObj, DataSourceType sourceType = DataSourceType.Read);
+        IEnumerable<TResponse> QueryListByPage<TResponse>(object paramObj, DataSourceType sourceType = DataSourceType.Read);
     }
     /// <summary>
     /// 获取记录数
