@@ -16,7 +16,7 @@ build:
   verbosity: normal
 before_package:
 - cmd: >-
-    dotnet build Bara -c %CONFIGURATION% --output 'bin\Release\'
+    dotnet build Bara -c %CONFIGURATION%
 test: off
 artifacts:
 - path: 'Bara\bin\Release\Bara.*.nupkg'
