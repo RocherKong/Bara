@@ -25,7 +25,7 @@ namespace Bara.Abstract.Session
 
         void CloseConnection();
 
-        DbSessionLifeCycle LifeCycle { get; }
+        DbSessionLifeCycle LifeCycle { get;set; }
 
         void BeginTransaction();
 

@@ -21,7 +21,7 @@ namespace Bara.Core.Session
 
         public IDbConnection Connection { get; private set; }
 
-        public DbSessionLifeCycle LifeCycle { get; private set; }
+        public DbSessionLifeCycle LifeCycle { get; set; }
 
         public IDbTransaction DbTransaction { get; private set; }
 
