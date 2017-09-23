@@ -17,17 +17,13 @@ build:
 before_package:
 - cmd: >-
     dotnet build Bara -c %CONFIGURATION%
-    dotnet build Bara.DataAccess -c %CONFIGURATION%
 after_build:
 - cmd: >-
     dotnet pack Bara -c %CONFIGURATION% --output 'bin\Release\'
-    dotnet pack Bara.DataAccess -c %CONFIGURATION% --output 'bin\Release\'
 test: off
 artifacts:
 - path: 'Bara\bin\Release\Bara.*.nupkg'
   name: BaraNupkg
-- path: 'Bara.DataAccess\bin\Release\Bara.DataAccess.*.nupkg'
-  name: BaraDataAccessNupkg
 deploy:
 - provider: NuGet
   api_key:
