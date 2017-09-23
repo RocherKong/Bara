@@ -2,6 +2,8 @@ version: 0.0.{build}
 image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
+matrix:
+  fast_finish: true
 before_build:
 - cmd: >-
     cd Dev
@@ -15,10 +17,11 @@ build:
 before_package:
 - cmd: >-
     dotnet build Bara -c %CONFIGURATION%
+    dotnet build Bara.DataAccess -c %CONFIGURATION%
 after_build:
 - cmd: >-
-    dotnet pack Bara -c %CONFIGURATION%
-    dotnet pack Bara.DataAccess -c %CONFIGURATION%
+    dotnet pack Bara -c %CONFIGURATION% --output 'bin\Release\'
+    dotnet pack Bara.DataAccess -c %CONFIGURATION% --output 'bin\Release\'
 test: off
 artifacts:
 - path: 'Bara\bin\Release\Bara.*.nupkg'
