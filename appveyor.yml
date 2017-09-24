@@ -6,8 +6,7 @@ matrix:
   fast_finish: true
 before_build:
 - cmd: >-
-    cd Dev
-
+    cd Dev\Bara
     appveyor-retry dotnet restore -v Minimal
 build:
   publish_nuget: true
@@ -16,7 +15,10 @@ build:
   verbosity: normal
 before_package:
 - cmd: >-
-    dotnet build Bara -c %CONFIGURATION%
+    dotnet build Bara -c %CONFIGURATION% 
+after_build:
+- cmd: >-
+    dotnet pack Bara -c %CONFIGURATION%
 test: off
 artifacts:
 - path: 'Bara\bin\Release\Bara.*.nupkg'
