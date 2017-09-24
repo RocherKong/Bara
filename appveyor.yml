@@ -6,7 +6,6 @@ matrix:
   fast_finish: true
 before_build:
 - cmd: >-
-    cd Dev
     appveyor-retry dotnet restore -v Minimal
 build:
   publish_nuget: true
