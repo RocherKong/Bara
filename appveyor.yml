@@ -6,7 +6,7 @@ matrix:
   fast_finish: true
 before_build:
 - cmd: >-
-    cd Dev\Bara
+    cd 'Dev\Bara' 
     appveyor-retry dotnet restore -v Minimal
 build:
   publish_nuget: true
