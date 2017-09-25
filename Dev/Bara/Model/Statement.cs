@@ -78,7 +78,7 @@ namespace Bara.Model
                 if (node.NodeType == System.Xml.XmlNodeType.Element)
                 {
                     XElement elenode = node as XElement;
-                 
+
                     tagName = elenode.Name.LocalName;
 
                     switch (tagName)
@@ -294,6 +294,24 @@ namespace Bara.Model
                                 Children = new List<ITag>()
                             };
                             break;
+                        }
+                    case "Where":
+                        {
+                            tag = new Where
+                            {
+                                Children = new List<ITag>()
+                            };
+                            break;
+                        }
+                    case "Dynamic":
+                        {
+                            tag = new Dynamic
+                            {
+                                Prepend = prepend,
+                                Children = new List<ITag>()
+                            };
+                            break;
+
                         }
                     default:
                         {
