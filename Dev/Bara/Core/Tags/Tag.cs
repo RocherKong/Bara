@@ -31,7 +31,7 @@ namespace Bara.Core.Tags
         /// <summary>
         /// 连接字符
         /// </summary>
-        public String Prepend { get; set; }
+        public virtual String Prepend { get; set; }
 
         /// <summary>
         /// 嵌套标签

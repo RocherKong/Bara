@@ -28,6 +28,8 @@ namespace Bara.Abstract.Tag
         Include,
         Switch,
         Case,
-        SwitchDefault
+        SwitchDefault,
+        Where,
+        Dynamic
     }
 }
