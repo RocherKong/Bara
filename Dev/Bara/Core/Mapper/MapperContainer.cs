@@ -1,6 +1,8 @@
 ﻿using Bara.Abstract.Config;
 using Bara.Abstract.Core;
 using Bara.Common;
+using Bara.Core.Logger;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +21,10 @@ namespace Bara.Core.Mapper
 
         public IBaraMapper GetBaraMapper(String BaraMapConfigPath = "BaraMapConfig.xml")
         {
-            return GetBaraMapper(BaraMapConfigPath, new LocalConfigLoader());
+            return GetBaraMapper(NullLoggerFactory.Instance, BaraMapConfigPath, new LocalConfigLoader());
         }
 
-        public IBaraMapper GetBaraMapper(String baraMapConfigPath, IConfigLoader configLoader)
+        public IBaraMapper GetBaraMapper(ILoggerFactory loggerFactory, String baraMapConfigPath, IConfigLoader configLoader)
         {
             if (!_mapperContainer.ContainsKey(baraMapConfigPath))
             {
@@ -30,12 +32,17 @@ namespace Bara.Core.Mapper
                 {
                     if (!_mapperContainer.ContainsKey(baraMapConfigPath))
                     {
-                        IBaraMapper _mapper = new BaraMapper(baraMapConfigPath, configLoader);
+                        IBaraMapper _mapper = new BaraMapper(loggerFactory, baraMapConfigPath, configLoader);
                         _mapperContainer.Add(baraMapConfigPath, _mapper);
                     }
                 }
             }
             return _mapperContainer[baraMapConfigPath];
+        }
+
+        public IBaraMapper GetBaraMapper(ILoggerFactory loggerFactory, String baraMapConfigPath)
+        {
+            return GetBaraMapper(loggerFactory, baraMapConfigPath, new LocalConfigLoader());
         }
 
         public void Dispose()

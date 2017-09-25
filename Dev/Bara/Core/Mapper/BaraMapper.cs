@@ -21,6 +21,8 @@ using Dapper;
 using System.Threading.Tasks;
 using Bara.Abstract.Cache;
 using Bara.Core.Cache;
+using System.Data;
+using Bara.Exceptions;
 
 namespace Bara.Core.Mapper
 {
@@ -72,6 +74,20 @@ namespace Bara.Core.Mapper
             DataSourceManager = new DataSourceManager(this);
             CacheManager = new CacheManager(this);
             SqlExecutor = new SqlExecutor(SqlBuilder, this);
+        }
+
+        public BaraMapper(ILoggerFactory loggerFactory, String baraMapConfigFilePath, IConfigLoader configLoader)
+        {
+            _loggerFactory = loggerFactory;
+            _logger = _loggerFactory.CreateLogger<BaraMapper>();
+            ConfigLoader =configLoader;
+            ConfigLoader.Load(baraMapConfigFilePath, this);
+            DbProviderFactory = BaraMapConfig.DataBase.DbProvider.DbProviderFactory;
+            SessionStore = new DbConnectionSessionStore(loggerFactory, this.GetHashCode().ToString());
+            SqlBuilder = new SqlBuilder(loggerFactory, this);
+            DataSourceManager = new DataSourceManager(loggerFactory, this);
+            CacheManager = new CacheManager(loggerFactory, this);
+            SqlExecutor = new SqlExecutor(loggerFactory, SqlBuilder, this);
         }
 
         public void LoadConfig(BaraMapConfig config)
@@ -248,6 +264,85 @@ namespace Bara.Core.Mapper
             }
         }
 
+        public IDbConnectionSession BeginTransaction()
+        {
+            var session = BeginSession(DataSourceType.Write);
+            session.BeginTransaction();
+            _logger.LogDebug($"BeginTrans DbSession Id:{session.Id}");
+            return session;
+        }
 
+        public IDbConnectionSession BeginTransaction(IsolationLevel isolationLevel)
+        {
+            var session = BeginSession(DataSourceType.Write);
+            session.BeginTransaction(isolationLevel);
+            _logger.LogDebug($"BeginTrans DbSession Id:{session.Id}");
+            return session;
+        }
+
+        public void CommitTransaction()
+        {
+            var session = SessionStore.LocalSession;
+            if (session == null)
+            {
+                throw new BaraException("BaraMapper could not invoke CommitTransaction(). No Transaction was started. Call BeginTransaction() first.");
+            }
+            try
+            {
+                _logger.LogDebug($"CommitTransaction DbSession.Id:{session.Id}");
+                session.CommitTransaction();
+                CacheManager.FlushQueue();
+            }
+            finally
+            {
+                SessionStore.Dispose();
+            }
+        }
+
+        public void RollbackTransaction()
+        {
+            var session = SessionStore.LocalSession;
+            if (session == null) {
+                throw new BaraException("BaraMapper can't invoke RollBackTransaction(),No Transaction Started.Invoke BegainTransaction first.");
+            }
+            try
+            {
+                _logger.LogDebug($"RollbackTransaction DbSession.Id:{session.Id}");
+                session.RollbackTransaction();
+                CacheManager.ClearQueue();
+            }
+            catch (Exception ex)
+            {
+
+                throw new BaraException($"BaraMapper invoke RollBackTransaction() throw error:{ex.Message}");
+            }
+            finally {
+                SessionStore.Dispose();
+            }
+        }
+
+        public IDbConnectionSession BeginSession(DataSourceType sourceType = DataSourceType.Write)
+        {
+            if (SessionStore.LocalSession != null)
+            {
+                throw new BaraException("Bara Current LocalSession is already Existed.You can't Invoke BeginSession");
+            }
+            var session = CreateDbSession(sourceType);
+            session.LifeCycle = DbSessionLifeCycle.Scoped;
+            session.OpenConnection();
+            SessionStore.Store(session);
+            return session;
+        }
+
+        public void EndSession()
+        {
+            var session = SessionStore.LocalSession;
+            if (session == null) {
+                throw new BaraException("Bara Can't End session that is null.");
+            }
+            session.LifeCycle = DbSessionLifeCycle.Transient;
+            session.CloseConnection();
+            session.Dispose();
+        }
     }
 }

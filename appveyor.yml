@@ -13,13 +13,21 @@ build:
   parallel: true
   verbosity: normal
 before_package:
-- cmd: dotnet build Bara -c %CONFIGURATION%
+- cmd: >-
+    dotnet build Bara -c %CONFIGURATION%
+
+    dotnet build Bara.DataAccess -c %CONFIGURATION%
 after_build:
-- cmd: dotnet pack Bara -c %CONFIGURATION%
+- cmd: >-
+    dotnet pack Bara -c %CONFIGURATION%
+
+    dotnet pack Bara.DataAccess -c %CONFIGURATION%
 test: off
 artifacts:
 - path: 'Bara\bin\Release\Bara.*.nupkg'
   name: Nuget
+- path: 'Bara.DataAccess\bin\Release\Bara.*.nupkg'
+  name: NugetDataAccess
 deploy:
 - provider: NuGet
   api_key:

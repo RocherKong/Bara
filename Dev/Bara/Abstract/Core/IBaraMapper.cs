@@ -5,6 +5,7 @@ using Bara.Core.Context;
 using Bara.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace Bara.Abstract.Core
@@ -30,7 +31,16 @@ namespace Bara.Abstract.Core
 
         IEnumerable<T> Query<T>(RequestContext context, DataSourceType dataSourceType);
 
-
+        #region Transaction
+        IDbConnectionSession BeginTransaction();
+        IDbConnectionSession BeginTransaction(IsolationLevel isolationLevel);
+        void CommitTransaction();
+        void RollbackTransaction();
+        #endregion
+        #region Scoped Session
+        IDbConnectionSession BeginSession(DataSourceType sourceType = DataSourceType.Write);
+        void EndSession();
+        #endregion
 
     }
 }
