@@ -6,8 +6,8 @@ just for .net
 
 # Next Step 
 
-## 1.Dynamic Tag
-## 2.Where Tag
+## 1.Test
+## 2.Test Compare
 ## 3.redis cache
 ## 4.zookeeper(options)
 ## 5.add Doc 
