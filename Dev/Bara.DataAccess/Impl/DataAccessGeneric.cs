@@ -38,6 +38,16 @@ namespace Bara.DataAccess.Impl
             }, sourceType);
         }
 
+        public TEntity GetSingleEntity(object reqParams, DataSourceType sourceType = DataSourceType.Read)
+        {
+            return baraMapper.QuerySingle<TEntity>(new Core.Context.RequestContext
+            {
+                Request = reqParams,
+                Scope = this.Scope,
+                SqlId = DefaultSqlId.GETENTITY
+            }, sourceType);
+        }
+
         public IEnumerable<TResponse> QueryList<TResponse>(object paramObj, DataSourceType sourceType = DataSourceType.Read)
         {
             return baraMapper.Query<TResponse>(new Core.Context.RequestContext

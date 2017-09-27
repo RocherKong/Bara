@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bara.DataAccess\Bara.DataAccess.csproj" />
     <ProjectReference Include="..\Bara\Bara.csproj" />
   </ItemGroup>
 
