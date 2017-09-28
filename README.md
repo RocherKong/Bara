@@ -21,12 +21,13 @@ If your want Bara Extension.(A collection of commonly used methods already inclu
 PM> Install-Package Bara.DataAccess
 ```
 
-## How To Use
-### 1.Add BaraMapConfig.xml
-  > Config whether the config need Watched.It will be update when setting true.
-  > Config DataBase ConnectString  
-  > Split Writen DB and Read DB. Specify each Database Weight which indicate the Access probability.
-  > Specify the ParameterPrefix（MSSQL:'@',Mysql:'#'...）
+## How To Use After Intalled
+### 1.Add **BaraMapConfig.xml** To Root Path.
+  > * Config whether the config need Watched.It will be update when setting true.
+  > * Config DataBase ConnectString  
+  > * Split Writen DB and Read DB. Specify each Database Weight which indicate the Access probability.
+  > * Specify the ParameterPrefix（MSSQL:'@',Mysql:'#'...）
+  > * Config your Maps which your sql in.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -44,6 +45,12 @@ PM> Install-Package Bara.DataAccess
     <BaraMap Path="Maps/" Type="Directory"></BaraMap>
   </BaraMaps>
 </BaraMapConfig>
+```
+### 2.Config BaraMap Xml Files(eg:**T_Test.xml** in Root-Folder Maps)
+
+### 3.Register To DI in Startup.cs
+```c#
+ services.AddSingleton<IBaraMapper>(MapperContainer.Instance.GetBaraMapper());
 ```
 
 ## Next Step 
