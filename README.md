@@ -53,6 +53,16 @@ PM> Install-Package Bara.DataAccess
  services.AddSingleton<IBaraMapper>(MapperContainer.Instance.GetBaraMapper());
 ```
 
+### 4.Use Any Where
+```c#
+           var result = mapper.QuerySingle<T_Test>(new Core.Context.RequestContext
+            {
+                SqlId = "GetEntity",
+                Scope = "T_Test",
+                Request = new { Id = 1 }
+            });
+```
+
 ## Next Step 
 
 * 1.Test
