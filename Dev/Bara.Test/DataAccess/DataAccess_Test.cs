@@ -32,7 +32,7 @@ namespace Bara.Test.DataAccess
         [Fact]
         public void GetEntityObject()
         {
-            var resp = _dao_test.GetSingleEntity(new { Id = 2 });//.GetEntity(new { Id = 2 });
+            var resp = _dao_test.GetSingleEntity(new { Id = 2 });
 
         }
 

@@ -100,7 +100,6 @@ namespace Bara.DataAccess.Impl
                 });
                 return default(TPrimary);
             }
-
         }
 
         public bool IsExist(object reqParams, DataSourceType sourceType = DataSourceType.Read)

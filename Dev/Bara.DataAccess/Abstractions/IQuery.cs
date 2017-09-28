@@ -16,6 +16,8 @@ namespace Bara.DataAccess.Abstractions
 
     public interface IGetEntity<TEntity> where TEntity : class {
         TEntity GetEntity<TPrimary>(TPrimary Id,DataSourceType sourceType=DataSourceType.Read);
+
+        TEntity GetSingleEntity(object reqParams, DataSourceType sourceType = DataSourceType.Read);
     }
 
     /// <summary>
