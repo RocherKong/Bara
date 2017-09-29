@@ -54,13 +54,24 @@ PM> Install-Package Bara.DataAccess
 ```
 
 ### 4.Use Any Where
+#### 4.1 GetEntity
 ```c#
+           var mapper = new BaraMapper();
            var result = mapper.QuerySingle<T_Test>(new Core.Context.RequestContext
             {
                 SqlId = "GetEntity",
                 Scope = "T_Test",
                 Request = new { Id = 1 }
             });
+```
+
+#### 4.2 QueryList
+```c#
+             var list= mapper.Query<T_Test>(new Core.Context.RequestContext
+                {
+                    SqlId="GetList",
+                    Scope="T_Test",
+                });
 ```
 
 ## Next Step 
