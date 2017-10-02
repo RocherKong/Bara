@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara.Test", "Bara.Test\Bara
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara.DataAccess", "Bara.DataAccess\Bara.DataAccess.csproj", "{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bara.Sample.Web", "Bara.Sample.Web\Bara.Sample.Web.csproj", "{0BDA2821-C87F-41A8-B8A8-C81E2AA40C23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bara.Sample.Web", "Bara.Sample.Web\Bara.Sample.Web.csproj", "{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,10 @@ Global
 		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BDA2821-C87F-41A8-B8A8-C81E2AA40C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BDA2821-C87F-41A8-B8A8-C81E2AA40C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BDA2821-C87F-41A8-B8A8-C81E2AA40C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BDA2821-C87F-41A8-B8A8-C81E2AA40C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
