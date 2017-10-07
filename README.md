@@ -94,6 +94,27 @@ int i = mapper.Execute(new Core.Context.RequestContext
   });
 ```
 
+## Cache Config
+### Firstly You Need Config Cache in BaraMap file .
+```xml
+<Caches>
+    <Cache Id="T_Test.LruCache" Type="Lru">
+      <Parameter Key="CacheSize" Value="100"/>
+      <FlushInterval Hours="0" Minutes="10" Seconds="0"/>
+      <FlushOnExecute Statement="T_Test.Insert"/>
+      <FlushOnExecute Statement="T_Test.Update"/>
+    </Cache>
+</Caches>
+```
+### Secondly You Need Relate Cache to your statement.
+```xml
+<Statement Id="QueryList" Cache="T_Test.LruCache">
+  SELECT Top 10 T.* From T_Test T With(NoLock)
+  <Include RefId="QueryParams"/>
+</Statement>
+```
+### After config Metioned.The Same-Query after first Query Will fetch Data from Cache.Also it will dismiss after Insert or Update method executed. 
+
 ## Next Step 
 
 * 1.Test
