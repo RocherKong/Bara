@@ -8,6 +8,7 @@
     <PackageReference Include="Bara" Version="0.9.2" />
     <PackageReference Include="Bara.DataAccess" Version="0.9.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="NLog" Version="5.0.0-beta11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,10 @@
 
   <ItemGroup>
     <None Include="Bara.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Maps\" />
   </ItemGroup>
 
 </Project>
