@@ -10,8 +10,6 @@ using Bara.Core.Mapper;
 using Bara.Sample.Web.Business;
 using Bara.Sample.Web.DataAccess;
 using Microsoft.Extensions.Logging;
-using NLog;
-using NLog.Extensions.Logging;
 
 namespace Bara.Sample.Web
 {
@@ -28,8 +26,8 @@ namespace Bara.Sample.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-
+            ConfigureDomainServices(services);
+            ConfigureDataAccess(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,8 +35,8 @@ namespace Bara.Sample.Web
         {
             factory.AddDebug();
             factory.AddConsole();
-            factory.AddNLog();
-            factory.ConfigureNLog("Nlog.config");
+            //factory.AddNLog();
+            //factory.ConfigureNLog("Nlog.config");
 
             if (env.IsDevelopment())
             {
