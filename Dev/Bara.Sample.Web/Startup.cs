@@ -68,7 +68,7 @@ namespace Bara.Sample.Web
             services.AddSingleton(sp =>
             {
                 var loggerfactory = sp.GetRequiredService<ILoggerFactory>();
-                return MapperContainer.Instance.GetBaraMapper(loggerfactory, "BaraMapConfig.xml");
+                return MapperContainer.Instance.GetBaraMapper(loggerfactory);
             });
             services.AddSingleton<MoviesDataAccess>();
         }
