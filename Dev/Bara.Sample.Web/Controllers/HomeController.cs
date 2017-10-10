@@ -5,15 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Bara.Sample.Web.Models;
+using Bara.Abstract.Core;
 
 namespace Bara.Sample.Web.Controllers
 {
     public class HomeController : Controller
     {
-
-        public HomeController()
+        private readonly IBaraMapper _baraMapper;
+        public HomeController(IBaraMapper baraMapper)
         {
-
+            this._baraMapper = baraMapper;
         }
         public IActionResult Index()
         {
