@@ -116,7 +116,7 @@ int i = mapper.Execute(new Core.Context.RequestContext
 ### After config Metioned.The Same-Query after first Query Will fetch Data from Cache.Also it will dismiss after Insert or Update method executed. 
 
 ## Next Step 
-
+* 0.Tags(Array)
 * 1.Test
 * 2.Test Compare
 * 3.redis cache

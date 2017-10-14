@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Bara.Core.Mapper;
+using Bara.Sample.Web.Business;
+using Bara.Sample.Web.DataAccess;
+using Microsoft.Extensions.Logging;
 
 namespace Bara.Sample.Web
 {
@@ -23,13 +26,18 @@ namespace Bara.Sample.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            services.AddSingleton(MapperContainer.Instance.GetBaraMapper());
+            ConfigureDomainServices(services);
+            ConfigureDataAccess(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory factory)
         {
+            factory.AddDebug();
+            factory.AddConsole();
+            //factory.AddNLog();
+            //factory.ConfigureNLog("Nlog.config");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -48,6 +56,21 @@ namespace Bara.Sample.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public void ConfigureDomainServices(IServiceCollection services)
+        {
+            services.AddSingleton<HomeService>();
+        }
+
+        public void ConfigureDataAccess(IServiceCollection services)
+        {
+            services.AddSingleton(sp =>
+            {
+                var loggerfactory = sp.GetRequiredService<ILoggerFactory>();
+                return MapperContainer.Instance.GetBaraMapper(loggerfactory);
+            });
+            services.AddSingleton<MoviesDataAccess>();
         }
     }
 }

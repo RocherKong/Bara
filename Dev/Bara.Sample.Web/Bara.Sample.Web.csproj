@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bara" Version="0.9.2" />
-    <PackageReference Include="Bara.DataAccess" Version="0.9.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 
@@ -16,6 +14,27 @@
 
   <ItemGroup>
     <None Include="Bara.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Maps\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bara.DataAccess\Bara.DataAccess.csproj" />
+    <ProjectReference Include="..\Bara\Bara.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BaraMapConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -40,7 +40,7 @@ namespace Bara.Core.Mapper
             return _mapperContainer[baraMapConfigPath];
         }
 
-        public IBaraMapper GetBaraMapper(ILoggerFactory loggerFactory, String baraMapConfigPath)
+        public IBaraMapper GetBaraMapper(ILoggerFactory loggerFactory, String baraMapConfigPath = "BaraMapConfig.xml")
         {
             return GetBaraMapper(loggerFactory, baraMapConfigPath, new LocalConfigLoader());
         }
