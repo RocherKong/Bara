@@ -470,6 +470,30 @@ targetNamespace="https://github.com/RocherKong/Bara/schemas/BaraMap.xsd"
       <xs:attribute name="Prepend" type="xs:string" use="optional" />
     </xs:complexType>
   </xs:element>
+  <xs:element name="IsProperty">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="IsEmpty" />
+        <xs:element ref="IsEqual" />
+        <xs:element ref="IsGreaterEqual" />
+        <xs:element ref="IsGreaterThan" />
+        <xs:element ref="IsLessEqual" />
+        <xs:element ref="IsLessThan" />
+        <xs:element ref="IsNotEmpty" />
+        <xs:element ref="IsNotEqual" />
+        <xs:element ref="IsNotNull" />
+        <xs:element ref="IsNull" />
+        <xs:element ref="Include" />
+        <xs:element ref="Switch" />
+        <xs:element ref="IsTrue" />
+        <xs:element ref="IsFalse" />
+        <xs:element ref="Where" />
+        <xs:element ref="Dynamic" />
+        <xs:element ref="IsProperty"/>
+      </xs:choice>
+      <xs:attribute name="Prepend" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="Statement">
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">

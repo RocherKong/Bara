@@ -11,7 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara.Test", "Bara.Test\Bara
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara.DataAccess", "Bara.DataAccess\Bara.DataAccess.csproj", "{ABA3792E-7EC9-4600-90D6-9CDE508FB71D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bara.Sample.Web", "Bara.Sample.Web\Bara.Sample.Web.csproj", "{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bara.Sample.Web", "Bara.Sample.Web\Bara.Sample.Web.csproj", "{5A97E3A2-55B9-4D16-A25A-24F79A27D72E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{986BB72F-B960-4DEF-9F07-7CB36168DF00}"
+	ProjectSection(SolutionItems) = preProject
+		..\Doc\Schemas\BaraMap.xsd = ..\Doc\Schemas\BaraMap.xsd
+		..\Doc\Schemas\BaraMapConfig.xsd = ..\Doc\Schemas\BaraMapConfig.xsd
+		..\Doc\Schemas\NLog.xsd = ..\Doc\Schemas\NLog.xsd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
