@@ -313,6 +313,17 @@ namespace Bara.Model
                             break;
 
                         }
+                    case "IsProperty":
+                        {
+                            tag = new IsProperty
+                            {
+                                Prepend = prepend,
+                                Children = new List<ITag>(),
+                                In = isIn,
+                                Property = property
+                            };
+                            break;
+                        }
                     default:
                         {
                             throw new BaraException($"Statement can't load TagName:{nodeName}");
