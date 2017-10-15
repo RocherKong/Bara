@@ -30,6 +30,7 @@ namespace Bara.Abstract.Tag
         Case,
         SwitchDefault,
         Where,
-        Dynamic
+        Dynamic,
+        IsProperty,
     }
 }
