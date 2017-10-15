@@ -21,10 +21,6 @@ namespace Bara.Common
             _logger = loggerFactory.CreateLogger<LocalConfigLoader>();
         }
 
-        public LocalConfigLoader()
-        {
-        }
-
         //总加载器
         //1初始化配置文件（BaraMapConfig），2监控文件BaraMapper   调用器
         public override BaraMapConfig Load(String filePath, IBaraMapper baraMapper)
@@ -46,7 +42,8 @@ namespace Bara.Common
                         LoadBaraMap(file, Config);
                     }
                 }
-                else {
+                else
+                {
                     throw new BaraException("Cant't Load Unknown Type:" + baraMapSource.Type);
                 }
             }

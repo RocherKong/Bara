@@ -21,7 +21,7 @@ namespace Bara.Core.Mapper
 
         public IBaraMapper GetBaraMapper(String BaraMapConfigPath = "BaraMapConfig.xml")
         {
-            return GetBaraMapper(NullLoggerFactory.Instance, BaraMapConfigPath, new LocalConfigLoader());
+            return GetBaraMapper(NullLoggerFactory.Instance, BaraMapConfigPath);
         }
 
         public IBaraMapper GetBaraMapper(ILoggerFactory loggerFactory, String baraMapConfigPath, IConfigLoader configLoader)
@@ -42,7 +42,7 @@ namespace Bara.Core.Mapper
 
         public IBaraMapper GetBaraMapper(ILoggerFactory loggerFactory, String baraMapConfigPath = "BaraMapConfig.xml")
         {
-            return GetBaraMapper(loggerFactory, baraMapConfigPath, new LocalConfigLoader());
+            return GetBaraMapper(loggerFactory, baraMapConfigPath, new LocalConfigLoader(loggerFactory));
         }
 
         public void Dispose()
