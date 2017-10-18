@@ -3,6 +3,7 @@ using Bara.Abstract.DataSource;
 using Bara.Abstract.Session;
 using Bara.Core.Context;
 using Bara.Model;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -40,6 +41,11 @@ namespace Bara.Abstract.Core
         #region Scoped Session
         IDbConnectionSession BeginSession(DataSourceType sourceType = DataSourceType.Write);
         void EndSession();
+        #endregion
+
+        #region ExtendMethods
+        IEnumerable<dynamic> QueryBySql(String sqlStr, object reqParams, DataSourceType sourceType = DataSourceType.Read);
+        IDataReader ExecuteReader(String sqlStr, object reqParams, DataSourceType sourceType = DataSourceType.Read);
         #endregion
 
     }

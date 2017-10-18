@@ -64,7 +64,7 @@ namespace Bara.Core.Mapper
             SqlExecutor = new SqlExecutor(loggerFactory, SqlBuilder, this);
         }
 
-        public BaraMapper(String baraMapConfigFilePath,IConfigLoader configLoader)
+        public BaraMapper(String baraMapConfigFilePath, IConfigLoader configLoader)
         {
             ConfigLoader = configLoader;
             ConfigLoader.Load(baraMapConfigFilePath, this);
@@ -80,7 +80,7 @@ namespace Bara.Core.Mapper
         {
             _loggerFactory = loggerFactory;
             _logger = _loggerFactory.CreateLogger<BaraMapper>();
-            ConfigLoader =configLoader;
+            ConfigLoader = configLoader;
             ConfigLoader.Load(baraMapConfigFilePath, this);
             DbProviderFactory = BaraMapConfig.DataBase.DbProvider.DbProviderFactory;
             SessionStore = new DbConnectionSessionStore(loggerFactory, this.GetHashCode().ToString());
@@ -167,6 +167,57 @@ namespace Bara.Core.Mapper
             {
                 var result = session.Connection.Query<T>(sqlStr, context.Request, session.DbTransaction);
                 CacheManager[context, typeof(IEnumerable<T>)] = result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (session.LifeCycle == DbSessionLifeCycle.Transient)
+                {
+                    session.CloseConnection();
+                }
+            }
+        }
+
+        public IEnumerable<dynamic> QueryBySql(String sqlStr, object reqParams, DataSourceType sourceType = DataSourceType.Read)
+        {
+
+            IDbConnectionSession session = SessionStore.LocalSession;
+            if (session == null)
+            {
+                session = CreateDbSession(sourceType);
+            }
+            try
+            {
+                var result = session.Connection.Query(sqlStr, reqParams, session.DbTransaction);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (session.LifeCycle == DbSessionLifeCycle.Transient)
+                {
+                    session.CloseConnection();
+                }
+            }
+        }
+
+        public IDataReader ExecuteReader(string sqlStr, object reqParams, DataSourceType sourceType = DataSourceType.Read)
+        {
+            IDbConnectionSession session = SessionStore.LocalSession;
+            if (session == null)
+            {
+                session = CreateDbSession(sourceType);
+            }
+            try
+            {
+                var result = session.Connection.ExecuteReader(sqlStr, reqParams);
                 return result;
             }
             catch (Exception ex)
@@ -302,7 +353,8 @@ namespace Bara.Core.Mapper
         public void RollbackTransaction()
         {
             var session = SessionStore.LocalSession;
-            if (session == null) {
+            if (session == null)
+            {
                 throw new BaraException("BaraMapper can't invoke RollBackTransaction(),No Transaction Started.Invoke BegainTransaction first.");
             }
             try
@@ -316,7 +368,8 @@ namespace Bara.Core.Mapper
 
                 throw new BaraException($"BaraMapper invoke RollBackTransaction() throw error:{ex.Message}");
             }
-            finally {
+            finally
+            {
                 SessionStore.Dispose();
             }
         }
@@ -337,7 +390,8 @@ namespace Bara.Core.Mapper
         public void EndSession()
         {
             var session = SessionStore.LocalSession;
-            if (session == null) {
+            if (session == null)
+            {
                 throw new BaraException("Bara Can't End session that is null.");
             }
             session.LifeCycle = DbSessionLifeCycle.Transient;
