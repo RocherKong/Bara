@@ -124,6 +124,9 @@ int i = mapper.Execute(new Core.Context.RequestContext
 * 5.add Doc 
 * 6.Release
 
+## Tips
+* Can DataAccess be more Simple?(Auto Generate dao Code for Mapping Method Name.)
+
 
 
 
