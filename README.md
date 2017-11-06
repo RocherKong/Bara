@@ -127,6 +127,9 @@ int i = mapper.Execute(new Core.Context.RequestContext
 ## Tips
 * Can DataAccess be more Simple?(Auto Generate dao Code for Mapping Method Name.)
 
+## Thanks
+[Ahoo-Wang/SmartSql](https://github.com/Ahoo-Wang/SmartSql/):
+
 
 
 
