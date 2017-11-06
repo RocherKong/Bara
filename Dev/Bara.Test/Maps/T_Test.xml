@@ -81,11 +81,10 @@
     <Statement Id="GetRecord">
       Select Count(1) From T_Test T With(NoLock)
       <Include RefId="QueryParams"/>
-
     </Statement>
 
     <!--获取表映射实体-->
-    <Statement Id="GetEntity" >
+    <Statement Id="GetEntity" Cache="T_Test.LruCache" >
       Select Top 1 T.* From T_Test T With(NoLock)
       Where 1=1
       <IsNotEmpty Prepend="And" Property="Id">

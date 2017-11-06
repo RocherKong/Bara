@@ -5,6 +5,7 @@ using System.Text;
 using Bara.Abstract.DataSource;
 using Bara.Abstract.Core;
 using Bara.DataAccess.Model;
+using Dapper;
 
 namespace Bara.DataAccess.Impl
 {
@@ -18,11 +19,15 @@ namespace Bara.DataAccess.Impl
         {
 
         }
+
+        protected String PrimaryKey { get; set; } = "Id";
         public int Delete<TPrimary>(TPrimary Id)
         {
+            var reqParams = new DynamicParameters();
+            reqParams.Add(PrimaryKey, Id);
             return baraMapper.Execute(new Core.Context.RequestContext
             {
-                Request = new { Id = Id },
+                Request = reqParams,
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.DELETE
             });
@@ -30,9 +35,11 @@ namespace Bara.DataAccess.Impl
 
         public TEntity GetEntity<TPrimary>(TPrimary Id, DataSourceType sourceType = DataSourceType.Read)
         {
+            var reqParams = new DynamicParameters();
+            reqParams.Add(PrimaryKey, Id);
             return baraMapper.QuerySingle<TEntity>(new Core.Context.RequestContext
             {
-                Request = new { Id = Id },
+                Request = reqParams,
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.GETENTITY
             }, sourceType);

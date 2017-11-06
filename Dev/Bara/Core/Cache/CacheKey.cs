@@ -1,5 +1,6 @@
 ﻿using Bara.Core.Context;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,17 +16,38 @@ namespace Bara.Core.Cache
         {
             get
             {
-                if (RequestContext.Request == null)
+                if (RequestContext.RequestDynamicParams == null)
                 {
                     return "Null";
                 }
-                var properties = RequestContext.Request.GetType().GetProperties().OrderBy(p => p.Name);
+                var reqParams = RequestContext.RequestDynamicParams;
+                var properties = reqParams.ParameterNames.ToList().OrderBy(x => x);
+
                 StringBuilder sb = new StringBuilder();
                 foreach (var prop in properties)
                 {
-                    sb.AppendFormat("&{0}",prop.GetValue(RequestContext.Request));
+                    var val = reqParams.Get<object>(prop);
+                    BuildSqlQueryString(sb, prop, val);
+
                 }
                 return sb.ToString().Trim('&');
+            }
+        }
+
+        private void BuildSqlQueryString(StringBuilder strBuilder, String key, object val)
+        {
+            if (val is IEnumerable list && !(val is String))
+            {
+                strBuilder.AppendFormat("&{0}=(", key);
+                foreach (var item in list)
+                {
+                    strBuilder.AppendFormat("{0}", item);
+                }
+                strBuilder.Append(")");
+            }
+            else
+            {
+                strBuilder.AppendFormat("&{0}={1}", key, val);
             }
         }
         public String Key { get { return $"{RequestContext.FullSqlId}:{RequestContextString}"; } }
@@ -46,10 +68,12 @@ namespace Bara.Core.Cache
 
         public override bool Equals(object obj)
         {
-            if (obj == this) {
+            if (obj == this)
+            {
                 return true;
             }
-            if (!(obj is CacheKey)) {
+            if (!(obj is CacheKey))
+            {
                 return false;
             }
             return (obj as CacheKey).Key == Key;

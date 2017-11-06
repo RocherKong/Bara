@@ -30,6 +30,15 @@ namespace Bara.Test.DataAccess
         }
 
         [Fact]
+        public void GetEntityCache_Test()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _dao_test.GetEntity(1);
+            }
+        }
+
+        [Fact]
         public void GetEntityObject()
         {
             var resp = _dao_test.GetSingleEntity(new { Id = 2 });
