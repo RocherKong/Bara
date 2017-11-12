@@ -10,17 +10,17 @@ namespace Bara.Core.Tags
     {
         public override TagType Type => TagType.Dynamic;
 
-        public override bool IsNeedShow(object objParam)
+        public override bool IsNeedShow(RequestContext context)
         {
             return true;
         }
 
-        public override string BuildSql(RequestContext context, string parameterPrefix)
+        public override string BuildSql(RequestContext context)
         {
-            return BuildChildSql(context, parameterPrefix);
+            return BuildChildSql(context);
         }
 
-        public String BuildChildSql(RequestContext context, String parameterPrefix)
+        public String BuildChildSql(RequestContext context)
         {
             StringBuilder strSql = new StringBuilder();
             if (Children != null && Children.Count > 0)
@@ -28,7 +28,7 @@ namespace Bara.Core.Tags
                 bool isFirstTag = true;
                 foreach (var childtag in Children)
                 {
-                    var _sql = childtag.BuildSql(context, parameterPrefix);
+                    var _sql = childtag.BuildSql(context);
                     if (String.IsNullOrEmpty(_sql))
                     {
                         continue;

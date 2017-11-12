@@ -109,7 +109,7 @@ namespace Bara.Core.Mapper
 
             int result = SqlExecutor.Execute<int>(context, DataSourceType.Write, (strsql, session) =>
             {
-                return session.Connection.Execute(strsql, context.Request, session.DbTransaction);
+                return session.Connection.Execute(strsql, context.DapperDynamicParams, session.DbTransaction);
             });
 
             return result;
@@ -125,7 +125,7 @@ namespace Bara.Core.Mapper
         {
             T result = SqlExecutor.Execute<T>(context, DataSourceType.Read, (sqlStr, session) =>
             {
-                return session.Connection.ExecuteScalar<T>(sqlStr, context.Request, session.DbTransaction);
+                return session.Connection.ExecuteScalar<T>(sqlStr, context.DapperDynamicParams, session.DbTransaction);
             });
             return result;
         }
@@ -141,7 +141,7 @@ namespace Bara.Core.Mapper
             #endregion
             T result = SqlExecutor.Execute<T>(context, dataSourceType, (sqlStr, session) =>
             {
-                return session.Connection.QuerySingleOrDefault<T>(sqlStr, context.Request, session.DbTransaction);
+                return session.Connection.QuerySingleOrDefault<T>(sqlStr, context.DapperDynamicParams, session.DbTransaction);
             });
             CacheManager[context, typeof(T)] = result;
             return result;
@@ -165,7 +165,7 @@ namespace Bara.Core.Mapper
             string sqlStr = SqlBuilder.BuildSql(context);
             try
             {
-                var result = session.Connection.Query<T>(sqlStr, context.Request, session.DbTransaction);
+                var result = session.Connection.Query<T>(sqlStr, context.DapperDynamicParams, session.DbTransaction);
                 CacheManager[context, typeof(IEnumerable<T>)] = result;
                 return result;
             }
@@ -239,7 +239,7 @@ namespace Bara.Core.Mapper
         {
             int result = await SqlExecutor.ExecuteAsync<int>(context, DataSourceType.Write, (sqlstr, session) =>
             {
-                return session.Connection.ExecuteAsync(sqlstr, context.Request, session.DbTransaction);
+                return session.Connection.ExecuteAsync(sqlstr, context.DapperDynamicParams, session.DbTransaction);
             });
             return result;
         }
@@ -255,7 +255,7 @@ namespace Bara.Core.Mapper
             #endregion
             T result = await SqlExecutor.ExecuteAsync<T>(context, DataSourceType.Read, (sqlStr, session) =>
              {
-                 return session.Connection.ExecuteScalarAsync<T>(sqlStr, context.Request, session.DbTransaction);
+                 return session.Connection.ExecuteScalarAsync<T>(sqlStr, context.DapperDynamicParams, session.DbTransaction);
              });
             CacheManager[context, typeof(T)] = result;
             return result;
@@ -265,7 +265,7 @@ namespace Bara.Core.Mapper
         {
             T result = await SqlExecutor.ExecuteAsync<T>(context, dataSourceType, (sqlStr, session) =>
              {
-                 return session.Connection.QuerySingleOrDefaultAsync<T>(sqlStr, context.Request, session.DbTransaction);
+                 return session.Connection.QuerySingleOrDefaultAsync<T>(sqlStr, context.DapperDynamicParams, session.DbTransaction);
              });
             return result;
         }
@@ -287,7 +287,7 @@ namespace Bara.Core.Mapper
             string sqlStr = SqlBuilder.BuildSql(context);
             try
             {
-                var result = await session.Connection.QueryAsync<T>(sqlStr, context.Request, session.DbTransaction);
+                var result = await session.Connection.QueryAsync<T>(sqlStr, context.DapperDynamicParams, session.DbTransaction);
                 CacheManager[context, typeof(IEnumerable<T>)] = result;
                 return result;
             }

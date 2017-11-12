@@ -12,9 +12,9 @@ namespace Bara.Core.Tags
     {
         public override TagType Type => TagType.IsNotEmpty;
 
-        public override bool IsNeedShow(object objParam)
+        public override bool IsNeedShow(RequestContext context)
         {
-            var reqVal = objParam.GetValue(Property);
+            var reqVal = context.GetValue(Property);
             var reqArray = reqVal as IEnumerable;
             if (reqArray != null)
             {

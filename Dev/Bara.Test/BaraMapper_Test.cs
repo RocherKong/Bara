@@ -27,7 +27,7 @@ namespace Bara.Test
             {
                 Scope = "T_Test",
                 SqlId = "Insert",
-                Request = new { Id = 4, Name = "Rocher4" }
+                Request = new { Id = 5, Name = "Rocher4" }
             });
 
             Assert.IsType<BaraMapper>(mapper);
@@ -53,7 +53,7 @@ namespace Bara.Test
             {
                 mapper.Query<T_Test>(new Core.Context.RequestContext
                 {
-                    SqlId="GetList",
+                    SqlId="QueryList",
                     Scope="T_Test",
                 });
             }

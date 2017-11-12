@@ -1,5 +1,6 @@
 ﻿using Bara.Abstract.Tag;
 using Bara.Common;
+using Bara.Core.Context;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,9 @@ namespace Bara.Core.Tags
     {
         public override TagType Type => TagType.IsGreaterEqual;
 
-        public override bool IsNeedShow(object objParam)
+        public override bool IsNeedShow(RequestContext context)
         {
-            var reqVal = objParam.GetValue(Property);
+            var reqVal = context.GetValue(Property);
             bool isNeedShow = false;
             if (reqVal == null) return false;
             if (!Decimal.TryParse(reqVal.ToString(), out decimal reqValue)) { return false; }

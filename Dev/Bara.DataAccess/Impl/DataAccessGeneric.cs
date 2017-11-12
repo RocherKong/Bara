@@ -121,17 +121,27 @@ namespace Bara.DataAccess.Impl
 
         public int Update(TEntity entity)
         {
-            return baraMapper.Execute(new Core.Context.RequestContext
-            {
-                Request = entity,
-                SqlId = DefaultSqlId.UPDATE,
-                Scope = this.Scope
-            });
+            return DynamicUpdate(entity);
         }
 
         protected override void InitScope()
         {
             this.Scope = typeof(TEntity).Name;
+        }
+
+        public void Insert(TEntity entity)
+        {
+            Insert<NoneIdentity>(entity);
+        }
+
+        public int DynamicUpdate(object entity)
+        {
+            return baraMapper.Execute(new Core.Context.RequestContext
+            {
+                Request = entity,
+                Scope = this.Scope,
+                SqlId = DefaultSqlId.UPDATE
+            });
         }
     }
 }

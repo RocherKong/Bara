@@ -12,9 +12,9 @@ namespace Bara.Core.Tags
 
         public override String Prepend { get { return "Where"; } }
 
-        public override string BuildSql(RequestContext context, string parameterPrefix)
+        public override string BuildSql(RequestContext context)
         {
-            return base.BuildChildSql(context, parameterPrefix);
+            return base.BuildChildSql(context);
         }
     }
 }

@@ -70,6 +70,9 @@ namespace Bara.Model
     {
         [XmlAttribute]
         public bool IsWatchConfigFile { get; set; }
+
+        [XmlAttribute]
+        public String ParameterPrefix { get; set; } = "$";
     }
 
     public class DataBase

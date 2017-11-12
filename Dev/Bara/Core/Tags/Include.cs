@@ -15,7 +15,7 @@ namespace Bara.Core.Tags
 
         public Statement Ref { get; set; }
 
-        public string BuildSql(RequestContext context, string parameterPrefix)
+        public string BuildSql(RequestContext context)
         {
             return Ref.BuildSql(context);
         }
