@@ -22,15 +22,15 @@ namespace Bara.Abstract.Core
 
         IDataSourceManager DataSourceManager { get; }
 
-        IDbConnectionSession CreateDbSession(DataSourceType dataSourceType);
+        IDbConnectionSession CreateDbSession(DataSourceType dataSourceType = DataSourceType.Read);
 
         int Execute(RequestContext context);
 
         T ExecuteScalar<T>(RequestContext context);
 
-        T QuerySingle<T>(RequestContext context, DataSourceType dataSourceType);
+        T QuerySingle<T>(RequestContext context, DataSourceType dataSourceType = DataSourceType.Read);
 
-        IEnumerable<T> Query<T>(RequestContext context, DataSourceType dataSourceType);
+        IEnumerable<T> Query<T>(RequestContext context, DataSourceType dataSourceType = DataSourceType.Read);
 
         #region Transaction
         IDbConnectionSession BeginTransaction();

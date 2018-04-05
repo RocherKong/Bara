@@ -25,7 +25,7 @@ namespace Bara.Core.Context
 
         internal IDictionary<String, object> RequestParameters { get; set; }
 
-        internal BaraMap baraMap { get; set; }
+        internal BaraMap _baraMap { get; set; }
 
         private object RequestObj { get; set; }
 

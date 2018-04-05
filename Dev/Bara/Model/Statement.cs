@@ -342,7 +342,7 @@ namespace Bara.Model
         }
         public String BuildSql(RequestContext context)
         {
-            context.baraMap = BaraMap;
+            context._baraMap = BaraMap;
             String baraprefix = BaraMap.BaraMapConfig.Settings.ParameterPrefix;
             String dbprefix = BaraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
             StringBuilder sqlStr = new StringBuilder();

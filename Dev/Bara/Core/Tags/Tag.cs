@@ -84,7 +84,7 @@ namespace Bara.Core.Tags
 
         protected virtual String GetDbProviderPrefix(RequestContext context)
         {
-            return context.baraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
+            return context._baraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
         }
 
         protected virtual Object GetPropertyValue(RequestContext context)
