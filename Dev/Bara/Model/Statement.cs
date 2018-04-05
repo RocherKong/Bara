@@ -342,13 +342,15 @@ namespace Bara.Model
         }
         public String BuildSql(RequestContext context)
         {
-            String prefix = BaraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
+            context.baraMap = BaraMap;
+            String baraprefix = BaraMap.BaraMapConfig.Settings.ParameterPrefix;
+            String dbprefix = BaraMap.BaraMapConfig.DataBase.DbProvider.ParameterPrefix;
             StringBuilder sqlStr = new StringBuilder();
             foreach (ITag tag in SqlTags)
             {
-                sqlStr.Append(tag.BuildSql(context, prefix));
+                sqlStr.Append(tag.BuildSql(context));
             }
-            return sqlStr.ToString();
+            return sqlStr.Replace(baraprefix, dbprefix).ToString();
         }
     }
 }

@@ -16,11 +16,11 @@ namespace Bara.Core.Cache
         {
             get
             {
-                if (RequestContext.RequestDynamicParams == null)
+                if (RequestContext.DapperDynamicParams == null)
                 {
                     return "Null";
                 }
-                var reqParams = RequestContext.RequestDynamicParams;
+                var reqParams = RequestContext.DapperDynamicParams;
                 var properties = reqParams.ParameterNames.ToList().OrderBy(x => x);
 
                 StringBuilder sb = new StringBuilder();

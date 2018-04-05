@@ -9,7 +9,7 @@ namespace Bara.Abstract.Tag
     {
         TagType Type { get; }
 
-        String BuildSql(RequestContext context, String parameterPrefix);
+        String BuildSql(RequestContext context);
     }
 
     public enum TagType

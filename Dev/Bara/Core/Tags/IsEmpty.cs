@@ -4,6 +4,7 @@ using System.Text;
 using Bara.Abstract.Tag;
 using Bara.Common;
 using System.Collections;
+using Bara.Core.Context;
 
 namespace Bara.Core.Tags
 {
@@ -11,9 +12,9 @@ namespace Bara.Core.Tags
     {
         public override TagType Type => TagType.IsEmpty;
 
-        public override bool IsNeedShow(object objParam)
+        public override bool IsNeedShow(RequestContext context)
         {
-            var reqVal = objParam.GetValue(Property);
+            var reqVal = context.GetValue(Property);
             var reqArray = reqVal as IEnumerable;
             if (reqArray != null)
             {

@@ -45,7 +45,13 @@ PM> Install-Package Bara.DataAccess
     <BaraMap Path="Maps/" Type="Directory"></BaraMap>
   </BaraMaps>
 </BaraMapConfig>
+
+Oracle:(Reference ODP Library From ./Doc/OracleDataProvider)
+<DbProvider Name="OracleClientFactory" ParameterPrefix=":" Type="Oracle.ManagedDataAccess.Client.OracleClientFactory,Oracle.ManagedDataAccess,Version=4.122.1.0,Culture=neutral, PublicKeyToken=89b483f429c47342"/>
+<Write Name="WriteDB" ConnectionString="User Id=User;Password=User;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)));"/>
+
 ```
+
 ### 2.Config BaraMap Xml Files(eg:**T_Test.xml** in Root-Folder Maps)
 
 ### 3.Register To DI in Startup.cs

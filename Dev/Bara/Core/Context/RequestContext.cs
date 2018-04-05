@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using Bara.Core.Mapper;
+using Bara.Model;
+using Dapper;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,9 +21,13 @@ namespace Bara.Core.Context
 
         public String FullSqlId { get { return $"{Scope}.{SqlId}"; } }
 
-        public DynamicParameters RequestDynamicParams { get; set; }
+        internal DynamicParameters DapperDynamicParams { get; set; }
 
-        public object RequestObj { get; set; }
+        internal IDictionary<String, object> RequestParameters { get; set; }
+
+        internal BaraMap baraMap { get; set; }
+
+        private object RequestObj { get; set; }
 
         public object Request
         {
@@ -29,20 +35,28 @@ namespace Bara.Core.Context
             set
             {
                 RequestObj = value;
-                if (RequestObj == null) { return; }
-                RequestDynamicParams = new DynamicParameters();
-                if ((RequestObj is DynamicParameters) || (RequestObj is IEnumerable<KeyValuePair<String, object>>))
+                if (RequestObj == null)
                 {
-                    RequestDynamicParams.AddDynamicParams(RequestObj);
+                    DapperDynamicParams = null;
+                    RequestParameters = null;
+                    return;
                 }
-                else
+                DapperDynamicParams = new DynamicParameters(RequestObj);
+                RequestParameters = new SortedDictionary<String, object>();
+
+                if (RequestObj is IEnumerable<KeyValuePair<String, object>> reqDic)
                 {
-                    var properties = RequestObj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                    foreach (var prop in properties)
+                    foreach (var kv in reqDic)
                     {
-                        var propertyVal = prop.GetValue(RequestObj);
-                        RequestDynamicParams.Add(prop.Name, propertyVal);
+                        RequestParameters.Add(kv.Key, kv.Value);
                     }
+                    return;
+                }
+                var properties = RequestObj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                foreach (var prop in properties)
+                {
+                    var propertyVal = prop.GetValue(RequestObj);
+                    RequestParameters.Add(prop.Name, propertyVal);
                 }
             }
         }

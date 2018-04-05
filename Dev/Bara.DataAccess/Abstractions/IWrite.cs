@@ -13,6 +13,7 @@ namespace Bara.DataAccess.Abstractions
     public interface IInsert<TEntity> where TEntity : class
     {
         TPrimary Insert<TPrimary>(TEntity entity);
+        void Insert(TEntity entity);
     }
 
     public interface IDelete
@@ -23,6 +24,8 @@ namespace Bara.DataAccess.Abstractions
     public interface IUpdate<TEntity> where TEntity : class
     {
         int Update(TEntity entity);
+
+        int DynamicUpdate(object entity);
     }
 
     public interface ITransaction

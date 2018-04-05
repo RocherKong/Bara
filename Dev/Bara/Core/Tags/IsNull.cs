@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Bara.Abstract.Tag;
 using Bara.Common;
+using Bara.Core.Context;
 
 namespace Bara.Core.Tags
 {
@@ -10,9 +11,9 @@ namespace Bara.Core.Tags
     {
         public override TagType Type => TagType.IsNull;
 
-        public override bool IsNeedShow(object objParam)
+        public override bool IsNeedShow(RequestContext context)
         {
-            return objParam.GetValue(Property) == null;
+            return context.GetValue(Property) == null;
         }
     }
 }
