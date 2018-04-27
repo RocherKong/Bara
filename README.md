@@ -4,28 +4,18 @@
 |[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2a3146f3f09246d3a1a25826189aa656)](https://www.codacy.com/app/kx.1990/Bara?utm_source=github.com&utm_medium=referral&utm_content=RocherKong/Bara&utm_campaign=badger)|[![Build status](https://ci.appveyor.com/api/projects/status/w20ms4cct4nyl5ar/branch/master?svg=true)](https://ci.appveyor.com/project/RocherKong/bara/branch/master)|  [![NuGet](https://img.shields.io/nuget/v/Bara.svg)](https://www.nuget.org/packages/Bara/)|[![Join the chat at https://gitter.im/Bara](https://badges.gitter.im/Bara.svg)](https://gitter.im/ORM-Bara/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)|
 
 
-#            _____                    _____                    _____                    _____          
-#           /\    \                  /\    \                  /\    \                  /\    \         
-#          /::\    \                /::\    \                /::\    \                /::\    \        
-#         /::::\    \              /::::\    \              /::::\    \              /::::\    \       
-#        /::::::\    \            /::::::\    \            /::::::\    \            /::::::\    \      
-#       /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \     
-#      /:::/__\:::\    \        /:::/__\:::\    \        /:::/__\:::\    \        /:::/__\:::\    \    
-#     /::::\   \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \   
-#    /::::::\   \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \  
-#   /:::/\:::\   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\  /:::/\:::\   \:::\    \ 
-#  /:::/__\:::\   \:::|    |/:::/  \:::\   \:::\____\/:::/  \:::\   \:::|    |/:::/  \:::\   \:::\____\
-#  \:::\   \:::\  /:::|____|\::/    \:::\  /:::/    /\::/   |::::\  /:::|____|\::/    \:::\  /:::/    /
-#   \:::\   \:::\/:::/    /  \/____/ \:::\/:::/    /  \/____|:::::\/:::/    /  \/____/ \:::\/:::/    / 
-#    \:::\   \::::::/    /            \::::::/    /         |:::::::::/    /            \::::::/    /  
-#     \:::\   \::::/    /              \::::/    /          |::|\::::/    /              \::::/    /   
-#      \:::\  /:::/    /               /:::/    /           |::| \::/____/               /:::/    /    
-#       \:::\/:::/    /               /:::/    /            |::|  ~|                    /:::/    /     
-#        \::::::/    /               /:::/    /             |::|   |                   /:::/    /      
-#         \::::/    /               /:::/    /              \::|   |                  /:::/    /       
-#          \::/____/                \::/    /                \:|   |                  \::/    /        
-#           ~~                       \/____/                  \|___|                   \/____/         
-#                                                                                                      
+``` html
+
+    ____                     
+   |  _ \                    
+   | |_) |  __ _  _ __  __ _ 
+   |  _ <  / _` || '__|/ _` |
+   | |_) || (_| || |  | (_| |
+   |____/  \__,_||_|   \__,_|
+                             
+                             
+
+```
 
 
 Bara is a .Net library for Orm. Bara provides quick access to DataBase. Also it is a cross-platform orm which is written by .net Standard version 1.4 . You Can use it on .net Framwork platform or .net Core platform with Any type DataBase which Dapper Support.
