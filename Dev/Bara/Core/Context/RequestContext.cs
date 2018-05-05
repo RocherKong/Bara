@@ -61,8 +61,5 @@ namespace Bara.Core.Context
             }
         }
 
-        public object Response { get; set; }
-
-        public IDictionary Items { get; set; } = new Dictionary<object, object>();
     }
 }
