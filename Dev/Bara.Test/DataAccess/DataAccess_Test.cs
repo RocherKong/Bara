@@ -50,5 +50,11 @@ namespace Bara.Test.DataAccess
         {
             var resp = _dao_test.QueryList<T_Test>(new { });
         }
+
+        [Fact]
+        public void QueryList2_Test() {
+            var resp = _dao_test.QueryListByPage<T_Test>(new { }, 1,  8);
+
+        }
     }
 }

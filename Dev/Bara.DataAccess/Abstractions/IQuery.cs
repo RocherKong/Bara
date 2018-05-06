@@ -33,6 +33,8 @@ namespace Bara.DataAccess.Abstractions
     public interface IQueryListByPage
     {
         IEnumerable<TResponse> QueryListByPage<TResponse>(object paramObj, DataSourceType sourceType = DataSourceType.Read);
+
+        IEnumerable<TResponse> QueryListByPage<TResponse>(object paramObj,int PageIndex,int PageSize, DataSourceType sourceType = DataSourceType.Read);
     }
     /// <summary>
     /// 获取记录数

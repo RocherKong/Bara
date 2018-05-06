@@ -75,6 +75,18 @@ namespace Bara.DataAccess.Impl
             }, sourceType);
         }
 
+        public IEnumerable<TResponse> QueryListByPage<TResponse>(object paramObj, int PageIndex, int PageSize, DataSourceType sourceType = DataSourceType.Read)
+        {
+            var req = new DynamicParameters(paramObj);
+            req.AddDynamicParams(new { PageIndex, PageSize });
+            return baraMapper.Query<TResponse>(new Core.Context.RequestContext
+            {
+                Request = req,
+                Scope = this.Scope,
+                SqlId = DefaultSqlId.QUERYLISTBYPAGE
+            }, sourceType);
+        }
+
         public int GetRecord(object paramObj, DataSourceType sourceType = DataSourceType.Read)
         {
             return baraMapper.ExecuteScalar<int>(new Core.Context.RequestContext
@@ -153,5 +165,7 @@ namespace Bara.DataAccess.Impl
                 SqlId = "DeleteBatch"
             });
         }
+
+
     }
 }

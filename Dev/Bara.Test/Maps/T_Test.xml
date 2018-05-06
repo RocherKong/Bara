@@ -70,7 +70,7 @@
       <!--Order By T.Id Desc-->
     </Statement>
     <!--获取分页数据-->
-    <Statement Id="GetListByPage" >
+    <Statement Id="QueryListByPage" >
       Select TT.* From
       (Select ROW_NUMBER() Over(Order By T.Id Desc) Row_Index,T.* From T_Test T With(NoLock)
       <Include RefId="QueryParams"/>) TT
