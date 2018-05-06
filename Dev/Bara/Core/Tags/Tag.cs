@@ -11,12 +11,6 @@ namespace Bara.Core.Tags
         public abstract TagType Type { get; }
 
         /// <summary>
-        /// 是否是迭代标签
-        /// </summary>
-        [Obsolete("Remove In Tag")]
-        public bool In { get; set; }
-
-        /// <summary>
         /// 满足条件则添加
         /// 不满足则不拼接
         /// </summary>
@@ -50,11 +44,6 @@ namespace Bara.Core.Tags
             if (IsNeedShow(context))
             {
                 string dbPrefix = GetDbProviderPrefix(context);
-                if (In)
-                {
-                    return $"{Prepend} In {dbPrefix}{Property}";
-                }
-               
                 return $"{Prepend}{BuildChildSql(context).ToString()}";
             }
             else

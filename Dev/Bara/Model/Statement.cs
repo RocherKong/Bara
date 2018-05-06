@@ -150,7 +150,6 @@ namespace Bara.Model
                         {
                             tag = new IsEmpty
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -162,7 +161,6 @@ namespace Bara.Model
                         {
                             tag = new IsEqual
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 CompareValue = compareValue,
@@ -174,7 +172,6 @@ namespace Bara.Model
                         {
                             tag = new IsNotEqual
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 CompareValue = compareValue,
                                 Property = property,
@@ -186,7 +183,6 @@ namespace Bara.Model
                         {
                             tag = new IsGreaterEqual
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 CompareValue = compareValue,
@@ -197,7 +193,6 @@ namespace Bara.Model
                         {
                             tag = new IsGreaterThan
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 CompareValue = compareValue,
@@ -209,7 +204,6 @@ namespace Bara.Model
                         {
                             tag = new IsLessEqual
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 CompareValue = compareValue,
@@ -221,7 +215,6 @@ namespace Bara.Model
                         {
                             tag = new IsLessThan
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 CompareValue = compareValue,
@@ -233,7 +226,6 @@ namespace Bara.Model
                         {
                             tag = new IsNotEmpty
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -244,7 +236,6 @@ namespace Bara.Model
                         {
                             tag = new IsNotNull
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -255,7 +246,6 @@ namespace Bara.Model
                         {
                             tag = new IsNull
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -266,7 +256,6 @@ namespace Bara.Model
                         {
                             tag = new Switch
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -277,7 +266,6 @@ namespace Bara.Model
                         {
                             tag = new Switch.Case
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -288,7 +276,6 @@ namespace Bara.Model
                         {
                             tag = new Switch.Default
                             {
-                                In = isIn,
                                 Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
@@ -319,7 +306,6 @@ namespace Bara.Model
                             {
                                 Prepend = prepend,
                                 Children = new List<ITag>(),
-                                In = isIn,
                                 Property = property
                             };
                             break;

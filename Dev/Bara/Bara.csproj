@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;netstandard2.0;net46</TargetFrameworks>
     <Authors>Rocher</Authors>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <NeutralLanguage>zh-CN</NeutralLanguage>
     <Copyright>Rocher</Copyright>
     <Description>just for c# orm cross-platform
@@ -12,8 +12,8 @@ improve a little every day.</Description>
     <Product>Bara</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Version>1.1.1</Version>
-    <PackageReleaseNotes>Add Default  DataSourceType.Read while QueryList and QuerySingle</PackageReleaseNotes>
+    <Version>1.1.2</Version>
+    <PackageReleaseNotes>Remove tag  'In'</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <PackageReference Include="Dapper" Version="1.50.2" />
