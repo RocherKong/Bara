@@ -143,5 +143,15 @@ namespace Bara.DataAccess.Impl
                 SqlId = DefaultSqlId.UPDATE
             });
         }
+
+        public int DeleteBatch<TPrimary>(TPrimary[] ids)
+        {
+            return baraMapper.Execute(new Core.Context.RequestContext
+            {
+                Request = new { Ids = ids },
+                Scope = Scope,
+                SqlId = "DeleteBatch"
+            });
+        }
     }
 }

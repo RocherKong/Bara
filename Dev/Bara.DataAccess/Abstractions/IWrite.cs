@@ -19,6 +19,8 @@ namespace Bara.DataAccess.Abstractions
     public interface IDelete
     {
         int Delete<TPrimary>(TPrimary Id);
+
+        int DeleteBatch<TPrimary>(TPrimary[] ids);
     }
 
     public interface IUpdate<TEntity> where TEntity : class
