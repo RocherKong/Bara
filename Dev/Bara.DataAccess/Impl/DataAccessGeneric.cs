@@ -5,7 +5,7 @@ using System.Text;
 using Bara.Abstract.DataSource;
 using Bara.Abstract.Core;
 using Bara.DataAccess.Model;
-using Dapper;
+using System.Reflection;
 
 namespace Bara.DataAccess.Impl
 {
@@ -23,11 +23,10 @@ namespace Bara.DataAccess.Impl
         protected String PrimaryKey { get; set; } = "Id";
         public int Delete<TPrimary>(TPrimary Id)
         {
-            var reqParams = new DynamicParameters();
-            reqParams.Add(PrimaryKey, Id);
+
             return baraMapper.Execute(new Core.Context.RequestContext
             {
-                Request = reqParams,
+                Request = new { PrimaryKey = Id },
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.DELETE
             });
@@ -35,11 +34,9 @@ namespace Bara.DataAccess.Impl
 
         public TEntity GetEntity<TPrimary>(TPrimary Id, DataSourceType sourceType = DataSourceType.Read)
         {
-            var reqParams = new DynamicParameters();
-            reqParams.Add(PrimaryKey, Id);
             return baraMapper.QuerySingle<TEntity>(new Core.Context.RequestContext
             {
-                Request = reqParams,
+                Request = new { PrimaryKey = Id },
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.GETENTITY
             }, sourceType);
@@ -77,11 +74,16 @@ namespace Bara.DataAccess.Impl
 
         public IEnumerable<TResponse> QueryListByPage<TResponse>(object paramObj, int PageIndex, int PageSize, DataSourceType sourceType = DataSourceType.Read)
         {
-            var req = new DynamicParameters(paramObj);
-            req.AddDynamicParams(new { PageIndex, PageSize });
+            Dictionary<String, object> reqParams =new Dictionary<String, object>();
+            foreach (var keyvalue in paramObj.GetType().GetProperties())
+            {
+                reqParams.Add(keyvalue.Name, keyvalue.GetValue(paramObj));
+            }
+            reqParams.Add("PageIndex", PageIndex);
+            reqParams.Add("PageSize", PageSize);
             return baraMapper.Query<TResponse>(new Core.Context.RequestContext
             {
-                Request = req,
+                Request = reqParams,
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.QUERYLISTBYPAGE
             }, sourceType);

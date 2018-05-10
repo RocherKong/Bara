@@ -42,7 +42,7 @@ namespace Bara.Core.Context
                     return;
                 }
                 DapperDynamicParams = new DynamicParameters(RequestObj);
-                RequestParameters = new SortedDictionary<String, object>();
+                RequestParameters = new Dictionary<String, object>();
 
                 if (RequestObj is IEnumerable<KeyValuePair<String, object>> reqDic)
                 {

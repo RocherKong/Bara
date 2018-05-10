@@ -20,7 +20,7 @@
     <Statement Id="QueryParams">
       Where 1=1
       <IsNotEmpty Property="Name" Prepend="And">
-        T.Name=@Name 
+        T.Name=@Name
       </IsNotEmpty>
       <IsNotEmpty Property="Id" Prepend="And">
         T.Id=@Id
@@ -72,7 +72,19 @@
     <!--获取分页数据-->
     <Statement Id="QueryListByPage" >
       Select TT.* From
-      (Select ROW_NUMBER() Over(Order By T.Id Desc) Row_Index,T.* From T_Test T With(NoLock)
+      (Select ROW_NUMBER() Over(
+      <Switch Prepend="Order By" Property="OrderBy" >
+        <Case CompareValue="1">
+          T.Id ASC
+        </Case>
+        <Case CompareValue="2">
+          T.Id Desc
+        </Case>
+        <Default>
+          T.Id Desc
+        </Default>
+      </Switch>
+      ) Row_Index,T.* From T_Test T With(NoLock)
       <Include RefId="QueryParams"/>) TT
       Where TT.Row_Index Between ((@PageIndex-1)*@PageSize+1) And (@PageIndex*@PageSize)
     </Statement>

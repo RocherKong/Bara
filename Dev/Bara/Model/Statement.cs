@@ -256,7 +256,7 @@ namespace Bara.Model
                         {
                             tag = new Switch
                             {
-                                Prepend = prepend,
+                                // Prepend = prepend,
                                 Property = property,
                                 Children = new List<ITag>()
                             };
@@ -264,20 +264,27 @@ namespace Bara.Model
                         }
                     case "Case":
                         {
+                            var switchNode = node.Parent;
+                            var switchProperty = switchNode.Attribute("Property")?.Value.Trim();
+                            var switchPrepend = switchNode.Attribute("Prepend")?.Value.Trim();
                             tag = new Switch.Case
                             {
-                                Prepend = prepend,
-                                Property = property,
+                                Prepend = switchPrepend,
+                                Property = switchProperty,
+                                CompareValue = compareValue,
                                 Children = new List<ITag>()
                             };
                             break;
                         }
                     case "Default":
                         {
+                            var switchNode = node.Parent;
+                            var switchProperty = switchNode.Attribute("Property")?.Value.Trim();
+                            var switchPrepend = switchNode.Attribute("Prepend")?.Value.Trim();
                             tag = new Switch.Default
                             {
-                                Prepend = prepend,
-                                Property = property,
+                                Prepend = switchPrepend,
+                                Property = switchProperty,
                                 Children = new List<ITag>()
                             };
                             break;

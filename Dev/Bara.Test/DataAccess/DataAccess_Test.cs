@@ -52,9 +52,17 @@ namespace Bara.Test.DataAccess
         }
 
         [Fact]
-        public void QueryList2_Test() {
-            var resp = _dao_test.QueryListByPage<T_Test>(new { }, 1,  8);
+        public void QueryList2_Test()
+        {
+            var resp = _dao_test.QueryListByPage<T_Test>(new { }, 1, 8);
 
+        }
+
+        [Fact]
+        public void QueryList_SwitchTest()
+        {
+            var resp = _dao_test.QueryListByPage<T_Test>(new { OrderBy = 1 }, 1, 8);
+            Assert.NotNull(resp);
         }
     }
 }
