@@ -64,5 +64,25 @@ namespace Bara.Test.DataAccess
             var resp = _dao_test.QueryListByPage<T_Test>(new { OrderBy = 1 }, 1, 8);
             Assert.NotNull(resp);
         }
+
+        [Fact]
+        public void Trans_Test()
+        {
+            try
+            {
+                _dao_test.BeginTransaction();
+                _dao_test.Insert<long>(new T_Test
+                {
+                    Id = 18,
+                    Name = "Trans"
+                });
+                _dao_test.CommitTransaction();
+            }
+            catch (Exception)
+            {
+                _dao_test.RollbackTransaction();
+                throw;
+            }
+        }
     }
 }

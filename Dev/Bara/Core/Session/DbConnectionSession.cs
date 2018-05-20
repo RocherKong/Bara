@@ -35,14 +35,14 @@ namespace Bara.Core.Session
         public void BeginTransaction()
         {
             OpenConnection();
-            Connection.BeginTransaction();
+            DbTransaction= Connection.BeginTransaction();
             LifeCycle = DbSessionLifeCycle.Scoped;
         }
 
         public void BeginTransaction(IsolationLevel isolationLevel)
         {
             OpenConnection();
-            Connection.BeginTransaction(isolationLevel);
+            DbTransaction = Connection.BeginTransaction(isolationLevel);
             LifeCycle = DbSessionLifeCycle.Scoped;
         }
 

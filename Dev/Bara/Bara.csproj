@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;netstandard2.0;net46</TargetFrameworks>
     <Authors>Rocher</Authors>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <FileVersion>1.2.1.0</FileVersion>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <FileVersion>1.2.2.0</FileVersion>
     <NeutralLanguage>zh-CN</NeutralLanguage>
     <Copyright>Rocher</Copyright>
     <Description>micro orm for .net cross-platform.Bara is a .Net library for Orm. Bara provides quick access to DataBase. Also it is a cross-platform orm which is written by .net Standard version 1.4 . You Can use it on .net Framwork platform or .net Core platform with Any type DataBase which Dapper Support.</Description>
@@ -11,8 +11,8 @@
     <Product>Bara</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Version>1.2.1</Version>
-    <PackageReleaseNotes>fix switch tag can't load</PackageReleaseNotes>
+    <Version>1.2.2</Version>
+    <PackageReleaseNotes>fix transcation</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <PackageReference Include="Dapper" Version="1.50.2" />
