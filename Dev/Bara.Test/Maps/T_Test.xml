@@ -49,7 +49,11 @@
     <Statement Id="Update">
       UPDATE T_Test
       SET
-      Name = @Name
+      <Dynamic>
+        <IsProperty Prepend="," Property="Name">
+          Name = @Name
+        </IsProperty>
+      </Dynamic>
       Where Id=@Id
     </Statement>
 

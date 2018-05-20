@@ -16,7 +16,8 @@ namespace Bara.Core.Tags
 
         public override bool IsNeedShow(RequestContext context)
         {
-            return context.GetType().GetProperty(Property) != null;
+            if (context.RequestParameters == null) { return false; }
+            return context.RequestParameters.ContainsKey(Property);
         }
     }
 }

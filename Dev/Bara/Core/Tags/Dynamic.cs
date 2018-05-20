@@ -46,9 +46,9 @@ namespace Bara.Core.Tags
                                 String _prepend = tag.Prepend.TrimStart();
                                 _sql = _sql.Substring(_prepend.Length);
                             }
-                            _sql = $"{Prepend}{strSql}";
-                            isFirstTag = false;
                         }
+                        _sql = $"{Prepend}{_sql}";
+                        isFirstTag = false;
                     }
                     strSql.Append(_sql);
                 }

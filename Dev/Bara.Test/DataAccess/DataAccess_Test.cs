@@ -84,5 +84,13 @@ namespace Bara.Test.DataAccess
                 throw;
             }
         }
+
+        [Fact]
+        public void Dynamic_Update_Test()
+        {
+            var entity = _dao_test.GetEntity<long>(18);
+            entity.Name = "Update";
+            _dao_test.Update(entity);
+        }
     }
 }
