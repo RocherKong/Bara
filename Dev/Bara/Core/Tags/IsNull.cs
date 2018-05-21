@@ -13,7 +13,7 @@ namespace Bara.Core.Tags
 
         public override bool IsNeedShow(RequestContext context)
         {
-            return context.GetValue(Property) == null;
+            return GetPropertyValue(context) == null;
         }
     }
 }

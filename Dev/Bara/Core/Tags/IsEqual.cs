@@ -13,7 +13,7 @@ namespace Bara.Core.Tags
 
         public override bool IsNeedShow(RequestContext context)
         {
-            var reqVal = context.GetValue(Property);
+            var reqVal = GetPropertyValue(context);
             bool isNeedShow = false;
             if (!decimal.TryParse(CompareValue, out decimal compareValue)) { return false; }
             if (!decimal.TryParse(reqVal.ToString(), out decimal reqValue)) { return false; }

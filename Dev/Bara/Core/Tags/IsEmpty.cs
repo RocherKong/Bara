@@ -14,9 +14,8 @@ namespace Bara.Core.Tags
 
         public override bool IsNeedShow(RequestContext context)
         {
-            var reqVal = context.GetValue(Property);
-            var reqArray = reqVal as IEnumerable;
-            if (reqArray != null)
+            var reqVal = GetPropertyValue(context);
+            if (reqVal is IEnumerable reqArray)
             {
                 return !reqArray.GetEnumerator().MoveNext();
             }
