@@ -23,10 +23,13 @@ namespace Bara.DataAccess.Impl
         protected String PrimaryKey { get; set; } = "Id";
         public int Delete<TPrimary>(TPrimary Id)
         {
-
+            var parameters = new Dictionary<string, object>
+            {
+                { PrimaryKey, Id }
+            };
             return baraMapper.Execute(new Core.Context.RequestContext
             {
-                Request = new { PrimaryKey = Id },
+                Request = parameters,
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.DELETE
             });
@@ -34,9 +37,13 @@ namespace Bara.DataAccess.Impl
 
         public TEntity GetEntity<TPrimary>(TPrimary Id, DataSourceType sourceType = DataSourceType.Read)
         {
+            var parameters = new Dictionary<string, object>
+            {
+                { PrimaryKey, Id }
+            };
             return baraMapper.QuerySingle<TEntity>(new Core.Context.RequestContext
             {
-                Request = new { PrimaryKey = Id },
+                Request = parameters,
                 Scope = this.Scope,
                 SqlId = DefaultSqlId.GETENTITY
             }, sourceType);

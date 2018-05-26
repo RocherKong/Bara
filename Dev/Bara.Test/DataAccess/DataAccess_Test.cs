@@ -92,5 +92,14 @@ namespace Bara.Test.DataAccess
             entity.Name = "Update";
             _dao_test.Update(entity);
         }
+
+
+        [Fact]
+        public void GetEntity_Test()
+        {
+            var resp = _dao_test.GetEntity(2);
+
+        }
+
     }
 }
